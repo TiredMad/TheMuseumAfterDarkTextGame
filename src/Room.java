@@ -1,0 +1,9 @@
+public enum Room {
+    CAFE,
+    MAINHALL,
+    GIFTSHOP,
+    DINOSAURGALLERY,
+    UPPERLANDING,
+    STAFFROOM,
+    GUARDROOM
+}
