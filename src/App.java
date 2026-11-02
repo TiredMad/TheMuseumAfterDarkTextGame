@@ -13,24 +13,31 @@ public class App {
         // Example use
         // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
         // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
-        String[] messages = initialise_room_messages();
-        PrintRoomMessage(messages, 1);
+        
+       
     }
-
+    
     // Making the array of room messages, will make them more descriptive later -
     // mad :P
-    public static String[] initialise_room_messages() {
-        String[] room_messages = new String[7];
-        room_messages[0] = "in the cafe";
-        room_messages[1] = "in the main hall";
-        room_messages[2] = "in the gift shop (battery location)";
-        room_messages[3] = "in the dino gallery(guidebook location";
-        room_messages[4] = "in the upper landing";
-        room_messages[5] = "in the staff room (keycard location)";
-        room_messages[6] = "in the guard room (goal)";
+    public static EnumMap<Room, String> initialise_room_messages() {
+        EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
+        roomMessages.put(Room.CAFE, "in the cafe");
+        roomMessages.put(Room.MAINHALL, "in the main hall");
+        roomMessages.put(Room.GIFTSHOP, "in the gift shop");
+        roomMessages.put(Room.DINOSAURGALLERY, "in the dinosaur gallery");
+        roomMessages.put(Room.UPPERLANDING, "in the upper landing");
+        roomMessages.put(Room.STAFFROOM, "in the staff room");
+        roomMessages.put(Room.GUARDROOM, "in the guard room");
 
-        return room_messages;
+        return roomMessages;
+        
+
+        
+
+        
     }
+
+
 
     public static void PrintRoomMessage(String[] messages, int index) {
         System.out.printf("%s\n", messages[index]);
