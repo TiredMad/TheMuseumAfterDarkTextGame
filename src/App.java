@@ -1,10 +1,25 @@
+import java.util.ArrayList;
+import java.util.EnumMap;
+
 public class App {
     public static void main(String[] args) throws Exception {
+
+        EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
+        EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
+        EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
+        ArrayList<Item> inventory = new ArrayList<>();
+        Room playerLocation = Room.CAFE;
+
+        // Example use
+        // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
+        // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
         String[] messages = initialise_room_messages();
         PrintRoomMessage(messages, 1);
     }
-    //Making the array of room messages, will make them more descriptive later - mad :P 
-    public static String[] initialise_room_messages(){
+
+    // Making the array of room messages, will make them more descriptive later -
+    // mad :P
+    public static String[] initialise_room_messages() {
         String[] room_messages = new String[7];
         room_messages[0] = "in the cafe";
         room_messages[1] = "in the main hall";
@@ -14,11 +29,11 @@ public class App {
         room_messages[5] = "in the staff room (keycard location)";
         room_messages[6] = "in the guard room (goal)";
 
-       return  room_messages;
+        return room_messages;
     }
 
-    public static void PrintRoomMessage(String[] messages, int index){
+    public static void PrintRoomMessage(String[] messages, int index) {
         System.out.printf("%s\n", messages[index]);
+
     }
 }
-
