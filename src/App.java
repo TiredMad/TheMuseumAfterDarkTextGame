@@ -4,15 +4,19 @@ import java.util.EnumMap;
 public class App {
     public static void main(String[] args) throws Exception {
 
+
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
-        Room playerLocation = Room.CAFE;
+        Room playerLocation = Room.MAINHALL;
 
         // Example use
         // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
         // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
+        EnumMap<Room, String> messages = initialise_room_messages();
+        PrintRoomMessage(messages, playerLocation);
+
         
        
     }
@@ -39,8 +43,8 @@ public class App {
 
 
 
-    public static void PrintRoomMessage(String[] messages, int index) {
-        System.out.printf("%s\n", messages[index]);
+    public static void PrintRoomMessage(EnumMap<Room, String> messages, Room room) {
+        System.out.printf("%s\n", messages.get(room));
 
     }
 }
