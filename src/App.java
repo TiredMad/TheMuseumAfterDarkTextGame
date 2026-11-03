@@ -9,8 +9,29 @@ public class App {
         ArrayList<Item> inventory = new ArrayList<>();
         Room playerLocation = Room.CAFE;
 
-        // Example use
-        // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
-        // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
     }
+
+    public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
+            EnumMap<Item, String> itemMessages) {
+
+        itemMessages.put(Item.BATTERIES, "Batteries. These are needed for the radio once you reach the guard room.");
+        itemMessages.put(Item.KEYCARD, "A key card. You'll need this to get access to the guard room.");
+
+        if (inventory.isEmpty()) {
+            return "Your pockets are empty.";
+        }
+
+        System.out.println(CheckWhatInInventory(inventory));
+        System.out.println("Which item do you want to examine? ");
+        String choice = scanner.nextLine().trim().toUpperCase();
+
+        for (Item currentItem : inventory) {
+            if (currentItem.name().equals(choice)) {
+                return itemMessages.get(currentItem);
+            }
+        }
+        return "You don't have that.";
+    }
+
 }
+g
