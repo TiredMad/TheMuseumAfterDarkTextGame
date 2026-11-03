@@ -52,4 +52,15 @@ public class App {
         return "You don't have that.";
     }
 
+    static String lookAroundRoom(Room playerLocation) {
+        // as a player, I would like to type "look" to 'scan' a room for useful
+        // items so that I know if an item is present within the room I am in.
+        return switch (playerLocation) {
+            case Room.CAFE -> "you see a coin. it might be useful";
+            case Room.DINOSAURGALLERY -> "you see a guidebook. it might be useful";
+            case Room.GIFTSHOP -> "you some batteries. they might be useful";
+            case Room.STAFFROOM -> "you see a keycard. it might be useful";
+            default -> "you don't see any useful items";
+        };
+    }
 }
