@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Scanner;
@@ -47,16 +45,6 @@ void ExamineItemsYouDontHave(){
 
 
 }
-
-}
-=======
-
-import java.util.EnumMap;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.EnumMap;
-
-public class AppTest {
     @Test 
     void initialiseRoomsHappyPath() throws Exception
     {
@@ -140,5 +128,24 @@ public class AppTest {
         assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.UPPERLANDING, map));
         assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));  
     }
+
+    //Testing if guardroom opens with two items & one item
+   @Test
+    void testOpenLockedDoorWithKeyValid() throws Exception {
+        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+    
+        assertEquals(true, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.KEYCARD, Item.BATTERIES)), messages, Room.GUARDROOM));
+        assertEquals(true, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.KEYCARD)), messages, Room.GUARDROOM));
+    }
+
+    // Testing whether the door stays locked in three cases 
+    @Test
+    void testOpenLockedDoorWithKeyInvalid() throws Exception {
+        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+
+        assertEquals(false, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.BATTERIES)), messages, Room.GUARDROOM));
+        assertEquals(false, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList()), messages, Room.GUARDROOM));
+        assertEquals(false, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.KEYCARD, Item.BATTERIES)), messages, Room.CAFE));
+
+    }
 }
->>>>>>> main
