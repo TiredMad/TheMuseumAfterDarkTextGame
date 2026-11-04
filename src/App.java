@@ -3,8 +3,10 @@ import java.util.EnumMap;
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) throws Exception {
 
+    public static Scanner stdin = new Scanner(System.in);
+
+    public static void main(String[] args) throws Exception {
 
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
@@ -40,6 +42,28 @@ public class App {
 
     }
 
+    // asks user for input and converts to command enum
+    // throws exception for invalid input
+    public static Command readAndParseCommand() throws Exception {
+        // take input from user
+        System.out.printf("Enter move:");
+        String input = stdin.nextLine();
+
+        // convert input to command enum
+        return switch (input.toLowerCase()) {
+            case "look" -> Command.LOOK;
+            case "examine" -> Command.EXAMINE;
+            case "inventory" -> Command.INVENTORY;
+            case "pickup" -> Command.PICKUP;
+            case "use" -> Command.USE;
+            case "north" -> Command.NORTH;
+            case "east" -> Command.EAST;
+            case "south" -> Command.SOUTH;
+            case "west" -> Command.WEST;
+            default -> throw new Exception("Invalid Command");
+        };
+    }
+
     public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages) {
 
@@ -49,8 +73,8 @@ public class App {
         if (inventory.isEmpty()) {
             return "Your pockets are empty.";
         }
-        String currentItems = CheckWhatInInventory(inventory);
-        System.out.println(currentItems);
+        //String currentItems = CheckWhatInInventory(inventory);
+        //System.out.println(currentItems);
 
         System.out.println("Which item do you want to examine? ");
         String choice = scanner.nextLine().trim().toUpperCase();
@@ -73,9 +97,6 @@ public class App {
             case Room.STAFFROOM -> "you see a keycard. it might be useful";
             default -> "you don't see any useful items";
         };
-
-        
-       
     }
     
     // Making the array of room messages, will make them more descriptive later -
@@ -91,14 +112,7 @@ public class App {
         roomMessages.put(Room.GUARDROOM, "in the guard room");
 
         return roomMessages;
-        
-
-        
-
-        
     }
-
-
 
     public static void PrintRoomMessage(EnumMap<Room, String> messages, Room room) throws Exception {
         if(messages.get(room)== null){
@@ -106,7 +120,6 @@ public class App {
         }
         
         System.out.printf("%s\n", messages.get(room));
-
     }
 
     public static EnumMap<Room, Item> InitialiseItemEnumMap() throws Exception
