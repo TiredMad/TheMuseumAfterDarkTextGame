@@ -32,7 +32,7 @@ public class App {
             Command command = readAndParseCommand();
 
             switch (command) {
-                //case Command.LOOK -> look();
+                case Command.LOOK -> System.out.println(look(playerLocation));
                 //case Command.EXAMINE -> examine();
                 //case Command.INVENTORY -> inventory();
                 //case Command.PICKUP -> pickup();
@@ -116,7 +116,7 @@ public class App {
         return "You don't have that.";
     }
 
-    static String lookAroundRoom(Room playerLocation) {
+    static String look(Room playerLocation) {
         // as a player, I would like to type "look" to 'scan' a room for useful
         // items so that I know if an item is present within the room I am in.
         return switch (playerLocation) {
