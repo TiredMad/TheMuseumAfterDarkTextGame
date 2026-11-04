@@ -42,10 +42,10 @@ public class App {
                 case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP);
                 case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP);
             };
+
         }   
 
         //PrintRoomMessage(messages, playerLocation);
-
     }
 
     // TODO
@@ -57,7 +57,7 @@ public class App {
     // throws exception for invalid input
     public static Command readAndParseCommand() throws Exception {
         // take input from user
-        System.out.printf("Enter move:");
+        System.out.printf("Enter command: ");
         String input = stdin.nextLine();
 
         // convert input to command enum
@@ -205,7 +205,7 @@ public class App {
         if (nextRoom != null) {
             return nextRoom;
         } else {
-            System.out.print("There is no way to go!");
+            System.out.println("There is no door in that direction!!");
             return playerCurrentRoom;
         }
     }
