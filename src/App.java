@@ -199,16 +199,12 @@ public class App {
             return false;
         }
 
-        else if (playerLocation == Room.GUARDROOM && inventory.contains(Item.KEYCARD) 
+        else if (playerLocation == Room.GUARDROOM && inventory.contains(Item.KEYCARD)
                 && !inventory.contains(Item.BATTERIES)) {
             System.out.print("Access granted \n Hint (Source of power needed for radio)");
-                }
-            return true;
-            
-                
         }
-    
+        return true;
 
     }
 
-
+}
