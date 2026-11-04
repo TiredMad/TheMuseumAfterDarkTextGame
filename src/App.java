@@ -67,4 +67,14 @@ public class App {
 
         return roomsAvailableFromRooms;
     }
+
+    // Returns the next room from a given room and a direction to go
+    // returns null if there is no room to go to
+    public static Room getNextRoom(
+        Direction directionHeading, 
+        Room room,
+        EnumMap<Room, EnumMap<Direction, Room>> map
+    ) {
+        return map.get(room).get(directionHeading);
+    }
 }
