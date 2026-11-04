@@ -4,6 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.EnumMap;
 
 public class AppTest {
+  
+    @Test
+      void validateLookAroundRoom() {
+          assertEquals("you some batteries. they might be useful", App.lookAroundRoom(Room.GIFTSHOP));
+          assertEquals("you see a keycard. it might be useful", App.lookAroundRoom(Room.STAFFROOM));
+          assertEquals("you don't see any useful items", App.lookAroundRoom(Room.MAINHALL));
+          assertThrows(NullPointerException.class, () -> App.lookAroundRoom(null));
+      }
     
     // test the correct room is given when the direction is valid
     // covering every direction at least once
@@ -64,6 +72,6 @@ public class AppTest {
         assertEquals(Room.GIFTSHOP, App.move(Direction.EAST, Room.GIFTSHOP, map));
         assertEquals(Room.STAFFROOM, App.move(Direction.NORTH, Room.STAFFROOM, map));
         assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.UPPERLANDING, map));
-        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));
+        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));  
     }
 }
