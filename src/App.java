@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -28,4 +29,28 @@ public class App {
             // }
         // }
     }
+    public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
+            EnumMap<Item, String> itemMessages) {
+
+        itemMessages.put(Item.BATTERIES, "BATTERIES. These are needed for the radio once you reach the guard room.");
+        itemMessages.put(Item.KEYCARD, "KEYCARD. You'll need this to get access to the guard room.");
+
+        if (inventory.isEmpty()) {
+            System.out.println("Your pockets are empty.");
+            return "Your pockets are empty.";
+        }
+        String currentItems = AddToInventory(inventory);
+        System.out.println(currentItems);
+
+        System.out.println("Which item do you want to examine? ");
+        String choice = scanner.nextLine().trim().toUpperCase();
+
+        for (Item currentItem : inventory) {
+            if (currentItem.name().equals(choice)) {
+                return itemMessages.get(currentItem);
+            }
+        }
+        return "You don't have that item.";
+    }
+
 }
