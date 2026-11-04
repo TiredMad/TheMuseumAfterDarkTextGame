@@ -27,4 +27,17 @@ public class AppTest {
         assertEquals(Room.GUARDROOM, App.getNextRoom(Direction.NORTH, Room.UPPERLANDING, map));
     }
 
+    // testing every room where there is a possibility the direction given can return null
+    @Test 
+    void testGetNextRoomInvalid() throws Exception {
+        EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
+
+        assertEquals(null, App.getNextRoom(Direction.EAST, Room.CAFE, map));
+        assertEquals(null, App.getNextRoom(Direction.SOUTH, Room.DINOSAURGALLERY, map));
+        assertEquals(null, App.getNextRoom(Direction.NORTH, Room.GIFTSHOP, map));
+        assertEquals(null, App.getNextRoom(Direction.WEST, Room.STAFFROOM, map));
+        assertEquals(null, App.getNextRoom(Direction.EAST, Room.UPPERLANDING, map));
+        assertEquals(null, App.getNextRoom(Direction.NORTH, Room.GUARDROOM, map));
+    }
+
 }

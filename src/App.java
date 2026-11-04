@@ -68,6 +68,22 @@ public class App {
         return roomsAvailableFromRooms;
     }
 
+    // updates the player to the new room
+    // or tells the user they cant go that way
+    public static Room move(
+        Direction directionToMove, 
+        Room playerCurrentRoom,
+        EnumMap<Room, EnumMap<Direction, Room>> map
+    ) {
+        Room nextRoom = getNextRoom(directionToMove, playerCurrentRoom, map);
+        if (nextRoom != null) {
+            return nextRoom;
+        } else {
+            System.out.print("There is no way to go!");
+            return playerCurrentRoom;
+        }
+    }
+
     // Returns the next room from a given room and a direction to go
     // returns null if there is no room to go to
     public static Room getNextRoom(
