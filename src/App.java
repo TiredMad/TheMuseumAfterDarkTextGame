@@ -162,6 +162,17 @@ public class App {
         return roomItems;
     }
 
+    public static void PutItemInInventoryAndRemoveFromRoom(EnumMap<Room, Item> roomItems, Room playerLocation, ArrayList<Item> inventory ){
+        inventory.add(roomItems.get(playerLocation));
+
+        System.out.println(roomItems.get(playerLocation) + " was added to your inventory");
+        roomItems.remove(playerLocation);
+        
+        
+
+        
+    }
+
     // Initialises the world map
     // Used to identify which directions are available from each room
     // and the room they lead to
