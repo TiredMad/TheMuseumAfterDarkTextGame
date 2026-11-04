@@ -40,4 +40,30 @@ public class AppTest {
         assertEquals(null, App.getNextRoom(Direction.NORTH, Room.GUARDROOM, map));
     }
 
+    // testing it corret room is returned when a move is valid
+    @Test 
+    void testMoveValid() throws Exception {
+        EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
+
+        assertEquals(Room.MAINHALL, App.move(Direction.NORTH, Room.CAFE, map));
+        assertEquals(Room.MAINHALL, App.move(Direction.EAST, Room.DINOSAURGALLERY, map));
+        assertEquals(Room.CAFE, App.move(Direction.SOUTH, Room.MAINHALL, map));
+        assertEquals(Room.MAINHALL, App.move(Direction.WEST, Room.GIFTSHOP, map));
+        assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.STAFFROOM, map));
+        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.UPPERLANDING, map));
+        assertEquals(Room.UPPERLANDING, App.move(Direction.SOUTH, Room.GUARDROOM, map));
+    }
+
+    // Testing invalid moves, the player should stay where they are
+    @Test
+    void testMoveInvalid() throws Exception {
+        EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
+
+        assertEquals(Room.CAFE, App.move(Direction.SOUTH, Room.CAFE, map));
+        assertEquals(Room.DINOSAURGALLERY, App.move(Direction.WEST, Room.DINOSAURGALLERY, map));
+        assertEquals(Room.GIFTSHOP, App.move(Direction.EAST, Room.GIFTSHOP, map));
+        assertEquals(Room.STAFFROOM, App.move(Direction.NORTH, Room.STAFFROOM, map));
+        assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.UPPERLANDING, map));
+        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));
+    }
 }
