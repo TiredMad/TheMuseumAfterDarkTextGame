@@ -29,9 +29,9 @@ public class App {
             // print current location
             System.out.println(messages.get(playerLocation));
 
-            Command command = readAndParseCommand();
+            ParsedCommand command = readAndParseCommand();
 
-            switch (command) {
+            switch (command.command()) {
                 //case Command.LOOK -> look();
                 //case Command.EXAMINE -> examine();
                 //case Command.INVENTORY -> inventory();
@@ -55,13 +55,15 @@ public class App {
 
     // asks user for input and converts to command enum
     // throws exception for invalid input
-    public static Command readAndParseCommand() throws Exception {
+    public static ParsedCommand readAndParseCommand() throws Exception {
         // take input from user
         System.out.printf("Enter command: ");
         String input = stdin.nextLine();
 
+        String[] words = input.split(" ");
+
         // convert input to command enum
-        return switch (input.toLowerCase()) {
+        Command command = switch (words[0].toLowerCase()) {
             case "look" -> Command.LOOK;
             case "examine" -> Command.EXAMINE;
             case "inventory" -> Command.INVENTORY;
@@ -73,6 +75,28 @@ public class App {
             case "west" -> Command.WEST;
             default -> throw new Exception("Invalid Command");
         };
+
+        switch (command) {
+            case Command.LOOK, Command.INVENTORY, Command.NORTH, Command.EAST, Command.SOUTH, Command.WEST -> {
+                return new ParsedCommand(command, null);
+            }
+            default -> {
+            }
+        }
+
+        if (words.length < 2) {
+            throw new Exception("Invalid Command");
+        }
+
+        Item item = switch (words[1].toLowerCase()) {
+            case "batteries" -> Item.BATTERIES;
+            case "keycard" -> Item.KEYCARD;
+            case "coin" -> Item.COIN;
+            case "guidebook" -> Item.GUIDEBOOK;
+            default -> null;
+        };
+
+        return new ParsedCommand(command, item);
     }
 
     public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
