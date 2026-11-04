@@ -3,36 +3,23 @@ import java.util.EnumMap;
 import java.util.Scanner;
 
 public class App {
-
-    public static Scanner stdin = new Scanner(System.in);
-
     public static void main(String[] args) throws Exception {
-<<<<<<< HEAD
 
-=======
->>>>>>> main
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
-        Room playerLocation = Room.CAFE;
+        Room playerLocation = Room.MAINHALL;
 
         // the world map
         final EnumMap<Room, EnumMap<Direction, Room>> MAP = initialiseMap();
 
-<<<<<<< HEAD
-=======
-        // room messages
-        EnumMap<Room, String> messages = initialise_room_messages();
-
->>>>>>> main
         // Example use
         // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
         // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
-<<<<<<< HEAD
         // while (!isGameComplete()) {
         // Command command = readAndParseCommand();
 
@@ -45,75 +32,12 @@ public class App {
         // case Command.NORTH, Command.EAST, Command.SOUTH, Command.WEST -> move();
         // }
         // }
-=======
-        while (!isGameComplete()) {
-            // print current location
-            System.out.println(messages.get(playerLocation));
 
-            Command command = readAndParseCommand();
->>>>>>> main
-
-            switch (command) {
-                //case Command.LOOK -> look();
-                //case Command.EXAMINE -> examine();
-                //case Command.INVENTORY -> inventory();
-                //case Command.PICKUP -> pickup();
-                //case Command.USE -> use();
-                case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP);
-                case Command.EAST -> playerLocation = move(Direction.EAST, playerLocation, MAP);
-                case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP);
-                case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP);
-            };
-        }   
-
-        //PrintRoomMessage(messages, playerLocation);
+        EnumMap<Room, String> messages = initialise_room_messages();
+        PrintRoomMessage(messages, playerLocation);
 
     }
 
-    // TODO
-    static boolean isGameComplete() {
-        return false;
-    }
-
-    // asks user for input and converts to command enum
-    // throws exception for invalid input
-    public static Command readAndParseCommand() throws Exception {
-        // take input from user
-        System.out.printf("Enter move:");
-        String input = stdin.nextLine();
-
-        // convert input to command enum
-        return switch (input.toLowerCase()) {
-            case "look" -> Command.LOOK;
-            case "examine" -> Command.EXAMINE;
-            case "inventory" -> Command.INVENTORY;
-            case "pickup" -> Command.PICKUP;
-            case "use" -> Command.USE;
-            case "north" -> Command.NORTH;
-            case "east" -> Command.EAST;
-            case "south" -> Command.SOUTH;
-            case "west" -> Command.WEST;
-            default -> throw new Exception("Invalid Command");
-        };
-    }
-
-    static void inventory(ArrayList<Item> inventory) {
-        if (inventory.size() == 0) {
-            System.out.println("You have nothing in your inventory.");
-            return;
-        }
-
-        String itemPlural = inventory.size() == 1 ? "item" : "items";
-        System.out.println("You have " + inventory.size() + " " + itemPlural + " in your inventory:");
-        for (Item item : inventory) {
-            switch (item) {
-                case Item.BATTERIES -> System.out.println("- Batteries");
-                case Item.KEYCARD -> System.out.println("- Keycard");
-                case Item.COIN -> System.out.println("- Coin");
-                case Item.GUIDEBOOK -> System.out.println("- Guidebook");
-            }
-        }
-    }
     // examines items in inventory
     // checks whether inventory is empty
     public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
@@ -125,8 +49,8 @@ public class App {
         if (inventory.isEmpty()) {
             return "Your pockets are empty.";
         }
-        //String currentItems = CheckWhatInInventory(inventory);
-        //System.out.println(currentItems);
+        String currentItems = CheckWhatInInventory(inventory);
+        System.out.println(currentItems);
 
         System.out.println("Which item do you want to examine? ");
         String choice = scanner.nextLine().trim().toUpperCase();
@@ -149,10 +73,7 @@ public class App {
             case Room.STAFFROOM -> "you see a keycard. it might be useful";
             default -> "you don't see any useful items";
         };
-<<<<<<< HEAD
 
-=======
->>>>>>> main
     }
 
     // Making the array of room messages, will make them more descriptive later -
@@ -168,10 +89,7 @@ public class App {
         roomMessages.put(Room.GUARDROOM, "in the guard room");
 
         return roomMessages;
-<<<<<<< HEAD
 
-=======
->>>>>>> main
     }
 
     public static void PrintRoomMessage(EnumMap<Room, String> messages, Room room) throws Exception {
@@ -180,6 +98,7 @@ public class App {
         }
 
         System.out.printf("%s\n", messages.get(room));
+
     }
 
     public static EnumMap<Room, Item> InitialiseItemEnumMap() throws Exception {
@@ -190,17 +109,6 @@ public class App {
         roomItems.put(Room.STAFFROOM, Item.KEYCARD);
 
         return roomItems;
-    }
-
-    public static void PutItemInInventoryAndRemoveFromRoom(EnumMap<Room, Item> roomItems, Room playerLocation, ArrayList<Item> inventory ){
-        inventory.add(roomItems.get(playerLocation));
-
-        System.out.println(roomItems.get(playerLocation) + " was added to your inventory");
-        roomItems.remove(playerLocation);
-        
-        
-
-        
     }
 
     // Initialises the world map
@@ -276,7 +184,8 @@ public class App {
             EnumMap<Room, EnumMap<Direction, Room>> map) {
         return map.get(room).get(directionHeading);
     }
-    //checks whether player has keycard to guarddoor
+
+    // checks whether player has keycard to guarddoor
     public static boolean OpenLockedDoorWithKey(Scanner scanner, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages, Room playerLocation) {
 
@@ -291,13 +200,11 @@ public class App {
         }
 
         else if (playerLocation == Room.GUARDROOM && inventory.contains(Item.KEYCARD)
-                && !inventory.contains(Item.BATTERIES))
-            ;
-        {
+                && !inventory.contains(Item.BATTERIES)) {
             System.out.print("Access granted \n Hint (Source of power needed for radio)");
-            return true;
-
         }
+        return true;
 
     }
+
 }
