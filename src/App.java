@@ -64,6 +64,24 @@ public class App {
         };
     }
 
+    static void inventory(ArrayList<Item> inventory) {
+        if (inventory.size() == 0) {
+            System.out.println("You have nothing in your inventory.");
+            return;
+        }
+
+        String itemPlural = inventory.size() == 1 ? "item" : "items";
+        System.out.println("You have " + inventory.size() + " " + itemPlural + " in your inventory:");
+        for (Item item : inventory) {
+            switch (item) {
+                case Item.BATTERIES -> System.out.println("- Batteries");
+                case Item.KEYCARD -> System.out.println("- Keycard");
+                case Item.COIN -> System.out.println("- Coin");
+                case Item.GUIDEBOOK -> System.out.println("- Guidebook");
+            }
+        }
+    }
+
     public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages) {
 
