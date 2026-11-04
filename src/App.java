@@ -7,10 +7,6 @@ public class App {
     public static Scanner stdin = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-<<<<<<< HEAD
-
-=======
->>>>>>> main
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
@@ -20,38 +16,20 @@ public class App {
         // the world map
         final EnumMap<Room, EnumMap<Direction, Room>> MAP = initialiseMap();
 
-<<<<<<< HEAD
-=======
         // room messages
         EnumMap<Room, String> messages = initialise_room_messages();
 
->>>>>>> main
         // Example use
         // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
         // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
-<<<<<<< HEAD
-        // while (!isGameComplete()) {
-        // Command command = readAndParseCommand();
-
-        // switch (command) {
-        // case Command.LOOK -> look();
-        // case Command.EXAMINE -> examine();
-        // case Command.INVENTORY -> inventory();
-        // case Command.PICKUP -> pickup();
-        // case Command.USE -> use();
-        // case Command.NORTH, Command.EAST, Command.SOUTH, Command.WEST -> move();
-        // }
-        // }
-=======
         while (!isGameComplete()) {
             // print current location
             System.out.println(messages.get(playerLocation));
 
             Command command = readAndParseCommand();
->>>>>>> main
 
             switch (command) {
                 //case Command.LOOK -> look();
@@ -114,8 +92,7 @@ public class App {
             }
         }
     }
-    // examines items in inventory
-    // checks whether inventory is empty
+
     public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages) {
 
@@ -149,12 +126,8 @@ public class App {
             case Room.STAFFROOM -> "you see a keycard. it might be useful";
             default -> "you don't see any useful items";
         };
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     }
-
+    
     // Making the array of room messages, will make them more descriptive later -
     // mad :P
     public static EnumMap<Room, String> initialise_room_messages() throws Exception {
@@ -168,21 +141,18 @@ public class App {
         roomMessages.put(Room.GUARDROOM, "in the guard room");
 
         return roomMessages;
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     }
 
     public static void PrintRoomMessage(EnumMap<Room, String> messages, Room room) throws Exception {
-        if (messages.get(room) == null) {
+        if(messages.get(room)== null){
             throw new Exception("no message available");
         }
-
+        
         System.out.printf("%s\n", messages.get(room));
     }
 
-    public static EnumMap<Room, Item> InitialiseItemEnumMap() throws Exception {
+    public static EnumMap<Room, Item> InitialiseItemEnumMap() throws Exception
+    {
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
         roomItems.put(Room.CAFE, Item.COIN);
         roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
@@ -236,7 +206,7 @@ public class App {
         roomsAvailableFromUpperLanding.put(Direction.SOUTH, Room.MAINHALL);
         roomsAvailableFromUpperLanding.put(Direction.WEST, Room.STAFFROOM);
 
-        // GUARD ROOM
+        //GUARD ROOM
         EnumMap<Direction, Room> roomsAvailableFromGuardRoom = new EnumMap<>(Direction.class);
         roomsAvailableFromGuardRoom.put(Direction.SOUTH, Room.UPPERLANDING);
 
@@ -256,9 +226,10 @@ public class App {
     // updates the player to the new room
     // or tells the user they cant go that way
     public static Room move(
-            Direction directionToMove,
-            Room playerCurrentRoom,
-            EnumMap<Room, EnumMap<Direction, Room>> map) {
+        Direction directionToMove, 
+        Room playerCurrentRoom,
+        EnumMap<Room, EnumMap<Direction, Room>> map
+    ) {
         Room nextRoom = getNextRoom(directionToMove, playerCurrentRoom, map);
         if (nextRoom != null) {
             return nextRoom;
@@ -271,33 +242,10 @@ public class App {
     // Returns the next room from a given room and a direction to go
     // returns null if there is no room to go to
     public static Room getNextRoom(
-            Direction directionHeading,
-            Room room,
-            EnumMap<Room, EnumMap<Direction, Room>> map) {
+        Direction directionHeading, 
+        Room room,
+        EnumMap<Room, EnumMap<Direction, Room>> map
+    ) {
         return map.get(room).get(directionHeading);
-    }
-    //checks whether player has keycard to guarddoor
-    public static boolean OpenLockedDoorWithKey(Scanner scanner, ArrayList<Item> inventory,
-            EnumMap<Item, String> itemMessages, Room playerLocation) {
-
-        if (playerLocation == Room.GUARDROOM && inventory.contains(Item.BATTERIES)
-                && (inventory.contains(Item.KEYCARD))) {
-            return true;
-        }
-
-        else if (playerLocation == Room.GUARDROOM && !inventory.contains(Item.KEYCARD)) {
-            System.out.print("Access deined you need a KEYCARD!");
-            return false;
-        }
-
-        else if (playerLocation == Room.GUARDROOM && inventory.contains(Item.KEYCARD)
-                && !inventory.contains(Item.BATTERIES))
-            ;
-        {
-            System.out.print("Access granted \n Hint (Source of power needed for radio)");
-            return true;
-
-        }
-
     }
 }

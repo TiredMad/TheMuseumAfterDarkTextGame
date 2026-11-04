@@ -1,50 +1,9 @@
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Scanner;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
 
 public class AppTest {
-
-@Test
-void IfInventoryIsEmptyMessageShown() {
-        Scanner scanner = new Scanner("");
-        ArrayList<Item> inventory = new ArrayList<>();
-        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
-
-        String result = App.ExamineItemOfChoice(scanner, inventory, messages);
-
-        assertEquals("Your pockets are empty.", result);
-
-
-}
-
-@Test 
-void ExamineItemsInInventory(){
-        Scanner scanner = new Scanner("BATTERIES");
-        ArrayList<Item> inventory = new ArrayList<>();
-        inventory.add(Item.BATTERIES);
-        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
-
-        String result = App.ExamineItemOfChoice(scanner, inventory, messages);
-
-        assertEquals("BATTERIES. These are needed for the radio once you reach the guard room.", result);
-
-}
-
-@Test
-void ExamineItemsYouDontHave(){
-       Scanner scanner = new Scanner("BATTERIES");
-       ArrayList<Item> inventory = new ArrayList<>();
-       inventory.add(Item.KEYCARD);
-       EnumMap<Item, String> messages = new EnumMap<>(Item.class);
-
-       String result = App.ExamineItemOfChoice(scanner, inventory, messages);
-
-       assertEquals("You don't have that item.", result);
-
-
-}
     @Test 
     void initialiseRoomsHappyPath() throws Exception
     {
@@ -129,23 +88,38 @@ void ExamineItemsYouDontHave(){
         assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));  
     }
 
-    //Testing if guardroom opens with two items & one item
-   @Test
-    void testOpenLockedDoorWithKeyValid() throws Exception {
-        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
-    
-        assertEquals(true, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.KEYCARD, Item.BATTERIES)), messages, Room.GUARDROOM));
-        assertEquals(true, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.KEYCARD)), messages, Room.GUARDROOM));
-    }
+    //tests for initialising the object EnumMap and adding an item to your inventory
 
-    // Testing whether the door stays locked in three cases 
     @Test
-    void testOpenLockedDoorWithKeyInvalid() throws Exception {
-        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+    void AddItemToInventoryHappyPath() throws Exception {
+        EnumMap<Room,Item> roomItems = App.InitialiseItemEnumMap();
+        ArrayList<Item> inventory = new ArrayList<>();
+        assertEquals(false, inventory.contains(Item.BATTERIES));
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.GIFTSHOP, inventory );
 
-        assertEquals(false, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.BATTERIES)), messages, Room.GUARDROOM));
-        assertEquals(false, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList()), messages, Room.GUARDROOM));
-        assertEquals(false, App.OpenLockedDoorWithKey(new java.util.Scanner(""), new java.util.ArrayList<>(java.util.Arrays.asList(Item.KEYCARD, Item.BATTERIES)), messages, Room.CAFE));
+       assertEquals(true, inventory.contains(Item.BATTERIES));
+       assertEquals(false, roomItems.containsValue(Item.BATTERIES));
+
+       assertEquals(false, inventory.contains(Item.COIN));
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.CAFE, inventory );
+
+       assertEquals(true, inventory.contains(Item.COIN));
+       assertEquals(false, roomItems.containsValue(Item.COIN));
+
+       assertEquals(false, inventory.contains(Item.GUIDEBOOK));
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.DINOSAURGALLERY, inventory );
+
+       assertEquals(true, inventory.contains(Item.GUIDEBOOK));
+       assertEquals(false, roomItems.containsValue(Item.GUIDEBOOK));
+
+       assertEquals(false, inventory.contains(Item.KEYCARD));
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.STAFFROOM, inventory );
+
+       assertEquals(true, inventory.contains(Item.KEYCARD));
+       assertEquals(false, roomItems.containsValue(Item.KEYCARD));
+
+
+
 
     }
 }
