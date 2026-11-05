@@ -46,10 +46,10 @@ public class App {
                 case Command.INVENTORY -> inventory(inventory);
                 case Command.PICKUP -> System.out.println(PickUp(playerLocation, roomItems, inventory));
                 case Command.USE -> System.out.println(useItem(command.item(), inventory, playerLocation));
-                case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP);
-                case Command.EAST -> playerLocation = move(Direction.EAST, playerLocation, MAP);
-                case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP);
-                case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP);
+                case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP, inventory, itemMessages);
+                case Command.EAST -> playerLocation = move(Direction.EAST, playerLocation, MAP, inventory, itemMessages);
+                case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP, inventory, itemMessages);
+                case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP, inventory, itemMessages);
             };
 
         }   
@@ -281,9 +281,17 @@ public class App {
     public static Room move(
         Direction directionToMove, 
         Room playerCurrentRoom,
-        EnumMap<Room, EnumMap<Direction, Room>> map
+        EnumMap<Room, EnumMap<Direction, Room>> map,
+        ArrayList<Item> inventory,
+        EnumMap<Item, String> itemMessages
     ) {
         Room nextRoom = getNextRoom(directionToMove, playerCurrentRoom, map);
+
+        // Only allow access to the guard room if we have the keycard.
+        if (nextRoom == Room.GUARDROOM && !OpenLockedDoorWithKey(inventory, itemMessages, nextRoom)) {
+            return playerCurrentRoom;
+        }
+
         if (nextRoom != null) {
             return nextRoom;
         } else {
