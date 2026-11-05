@@ -175,6 +175,20 @@ public class App {
         
     }
 
+    // throwing error for if no item is in a room
+    public static String PickUp(Room playerLocation, EnumMap<Room, Item> roomItems, ArrayList<Item> inventory) {
+        if (roomItems.containsKey(playerLocation)) {
+            PutItemInInventoryAndRemoveFromRoom(roomItems, playerLocation, inventory);
+            String successMessage = "You successfully added an item to your inventory";
+            
+            return successMessage;
+        } else {
+            String failureMessage = "You cannot see any useful items in this room.";
+            return failureMessage; 
+        }
+    }
+    
+
     // Initialises the world map
     // Used to identify which directions are available from each room
     // and the room they lead to
