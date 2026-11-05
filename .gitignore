@@ -140,6 +140,8 @@ fabric.properties
 hs_err_pid*
 replay_pid*
 
+bin/
+
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij
 
 .DS_Store

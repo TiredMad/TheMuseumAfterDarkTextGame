@@ -1,10 +1,14 @@
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Scanner;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
 public class App {
 
     public static Scanner stdin = new Scanner(System.in);
+
+    public static boolean isGameComplete = false;
 
     public static void main(String[] args) throws Exception {
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
@@ -25,7 +29,7 @@ public class App {
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
-        while (!isGameComplete()) {
+        while (isGameComplete) {
             // print current location
             System.out.println(messages.get(playerLocation));
 
@@ -162,13 +166,13 @@ public class App {
     // mad :P
     public static EnumMap<Room, String> initialise_room_messages() throws Exception {
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
-        roomMessages.put(Room.CAFE, "in the cafe");
-        roomMessages.put(Room.MAINHALL, "in the main hall");
-        roomMessages.put(Room.GIFTSHOP, "in the gift shop");
-        roomMessages.put(Room.DINOSAURGALLERY, "in the dinosaur gallery");
-        roomMessages.put(Room.UPPERLANDING, "in the upper landing");
-        roomMessages.put(Room.STAFFROOM, "in the staff room");
-        roomMessages.put(Room.GUARDROOM, "in the guard room");
+        roomMessages.put(Room.CAFE, Files.readString(Path.of("src/RoomDescriptions/CafeDescription.txt")));
+        roomMessages.put(Room.MAINHALL, Files.readString(Path.of("src/RoomDescriptions/MainHallDescription.txt")));
+        roomMessages.put(Room.GIFTSHOP, Files.readString(Path.of("src/RoomDescriptions/GiftShopDescription.txt")));
+        roomMessages.put(Room.DINOSAURGALLERY, Files.readString(Path.of("src/RoomDescriptions/DinosaurGalleryDescription.txt")));
+        roomMessages.put(Room.UPPERLANDING, Files.readString(Path.of("src/RoomDescriptions/UpperLandingDescription.txt")));
+        roomMessages.put(Room.STAFFROOM, Files.readString(Path.of("src/RoomDescriptions/StaffRoomDescription.txt")));
+        roomMessages.put(Room.GUARDROOM, Files.readString(Path.of("src/RoomDescriptions/GuardRoomDescription.txt")));
 
         return roomMessages;
     }
@@ -202,6 +206,20 @@ public class App {
 
         
     }
+
+    // throwing error for if no item is in a room
+    public static String PickUp(Room playerLocation, EnumMap<Room, Item> roomItems, ArrayList<Item> inventory) {
+        if (roomItems.containsKey(playerLocation)) {
+            PutItemInInventoryAndRemoveFromRoom(roomItems, playerLocation, inventory);
+            String successMessage = "You successfully added an item to your inventory";
+            
+            return successMessage;
+        } else {
+            String failureMessage = "You cannot see any useful items in this room.";
+            return failureMessage; 
+        }
+    }
+    
 
     // Initialises the world map
     // Used to identify which directions are available from each room
@@ -278,4 +296,51 @@ public class App {
     ) {
         return map.get(room).get(directionHeading);
     }
+
+    public static String useItem(Item item, ArrayList<Item> userInventory, Room playerLocation) {
+
+        // we currently only track two items
+        // the keycard will automatically open a door so we dont need to handle this
+        if (item == Item.KEYCARD && userInventory.contains(Item.KEYCARD)) {
+            return "Looks like the key card has opened the guard room";
+            // the batteries must be used in the guardroom to complete the game.
+        }
+
+        if (item == Item.BATTERIES && userInventory.contains(Item.BATTERIES)) {
+            // check player is in the
+            if (playerLocation == Room.GUARDROOM) {
+                // this wins the game
+                isGameComplete = true;
+                return "You put the batteries in the radio.";
+            } else {
+                return "The batteries can be used in the radio! Head to the guard room!";
+            }
+        }
+
+        return "You do not have that item!";
+    }
+    // checks whether player has keycard to guarddoor
+    public static boolean OpenLockedDoorWithKey(ArrayList<Item> inventory,
+            EnumMap<Item, String> itemMessages, Room playerLocation) {
+
+        if (playerLocation == Room.GUARDROOM && inventory.contains(Item.BATTERIES)
+                && (inventory.contains(Item.KEYCARD))) {
+            return true;
+        }
+
+        else if (playerLocation == Room.GUARDROOM && !inventory.contains(Item.KEYCARD)) {
+            System.out.print("Access deined you need a KEYCARD!");
+            return false;
+        }
+
+        else if (playerLocation == Room.GUARDROOM && inventory.contains(Item.KEYCARD)
+                && !inventory.contains(Item.BATTERIES)) {
+            System.out.print("Access granted \n Hint (Source of power needed for radio)");
+        }
+        return true;
+
+    }
+
+
+
 }
