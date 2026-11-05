@@ -52,6 +52,7 @@ public class App {
                 case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP, inventory, itemMessages);
             };
 
+            System.out.println();
         }   
 
         //PrintRoomMessage(messages, playerLocation);
