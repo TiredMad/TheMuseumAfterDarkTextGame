@@ -1,7 +1,9 @@
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Scanner;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
 public class App {
 
     public static Scanner stdin = new Scanner(System.in);
@@ -158,13 +160,13 @@ public class App {
     // mad :P
     public static EnumMap<Room, String> initialise_room_messages() throws Exception {
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
-        roomMessages.put(Room.CAFE, "in the cafe");
-        roomMessages.put(Room.MAINHALL, "in the main hall");
-        roomMessages.put(Room.GIFTSHOP, "in the gift shop");
-        roomMessages.put(Room.DINOSAURGALLERY, "in the dinosaur gallery");
-        roomMessages.put(Room.UPPERLANDING, "in the upper landing");
-        roomMessages.put(Room.STAFFROOM, "in the staff room");
-        roomMessages.put(Room.GUARDROOM, "in the guard room");
+        roomMessages.put(Room.CAFE, Files.readString(Path.of("src/RoomDescriptions/CafeDescription.txt")));
+        roomMessages.put(Room.MAINHALL, Files.readString(Path.of("src/RoomDescriptions/MainHallDescription.txt")));
+        roomMessages.put(Room.GIFTSHOP, Files.readString(Path.of("src/RoomDescriptions/GiftShopDescription.txt")));
+        roomMessages.put(Room.DINOSAURGALLERY, Files.readString(Path.of("src/RoomDescriptions/DinosaurGalleryDescription.txt")));
+        roomMessages.put(Room.UPPERLANDING, Files.readString(Path.of("src/RoomDescriptions/UpperLandingDescription.txt")));
+        roomMessages.put(Room.STAFFROOM, Files.readString(Path.of("src/RoomDescriptions/StaffRoomDescription.txt")));
+        roomMessages.put(Room.GUARDROOM, Files.readString(Path.of("src/RoomDescriptions/GuardRoomDescription.txt")));
 
         return roomMessages;
     }
@@ -198,6 +200,20 @@ public class App {
 
         
     }
+
+    // throwing error for if no item is in a room
+    public static String PickUp(Room playerLocation, EnumMap<Room, Item> roomItems, ArrayList<Item> inventory) {
+        if (roomItems.containsKey(playerLocation)) {
+            PutItemInInventoryAndRemoveFromRoom(roomItems, playerLocation, inventory);
+            String successMessage = "You successfully added an item to your inventory";
+            
+            return successMessage;
+        } else {
+            String failureMessage = "You cannot see any useful items in this room.";
+            return failureMessage; 
+        }
+    }
+    
 
     // Initialises the world map
     // Used to identify which directions are available from each room
