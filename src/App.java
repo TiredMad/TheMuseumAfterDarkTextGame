@@ -6,6 +6,8 @@ public class App {
 
     public static Scanner stdin = new Scanner(System.in);
 
+    public static boolean isGameComplete = false;
+
     public static void main(String[] args) throws Exception {
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
@@ -25,7 +27,7 @@ public class App {
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
-        while (!isGameComplete()) {
+        while (isGameComplete) {
             // print current location
             System.out.println(messages.get(playerLocation));
 
@@ -271,5 +273,26 @@ public class App {
         EnumMap<Room, EnumMap<Direction, Room>> map
     ) {
         return map.get(room).get(directionHeading);
+    }
+
+    // use item 
+    public static void useItem(Item item, ArrayList<Item> userInventory, Room playerLocation) {
+        // check the user has the item
+        if (!userInventory.contains(item)) {
+            System.out.println("You dont have that item.");
+        }
+
+        if (item == Item.KEYCARD) {
+            System.out.println("Looks like this can be used to go through a door");
+        } else if (item == Item.BATTERIES) {
+            // check player is in the
+            if (playerLocation == Room.GUARDROOM) {
+                // this wins the game
+                System.out.println("You put the batteries in the radio.");
+                isGameComplete = true;
+            } else {
+                System.out.println("The batteries can be used in the radio! Head to the guard room.");
+            }
+        }
     }
 }
