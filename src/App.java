@@ -99,7 +99,7 @@ public class App {
             case "keycard" -> Item.KEYCARD;
             case "coin" -> Item.COIN;
             case "guidebook" -> Item.GUIDEBOOK;
-            default -> null;
+            default -> throw new ParserException("Invalid item.");
         };
 
         return new ParsedCommand(command, item);
