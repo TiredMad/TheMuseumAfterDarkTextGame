@@ -189,29 +189,29 @@ public class AppTest {
 
     
 
+        // testing examine shows the right message for items the player has
     @Test
-    void IfInventoryIsEmptyMessageShown() {
-        Scanner scanner = new Scanner("");
-        ArrayList<Item> inventory = new ArrayList<>();
+    void testExamineItemValid() throws Exception {
         EnumMap<Item, String> messages = new EnumMap<>(Item.class);
-
-        String result = App.ExamineItemOfChoice(scanner, inventory, messages);
-
-        assertEquals("Your pockets are empty.", result);
-
-    }
-
-    @Test
-    void ExamineItemsInInventory() {
-        Scanner scanner = new Scanner("BATTERIES");
         ArrayList<Item> inventory = new ArrayList<>();
         inventory.add(Item.BATTERIES);
+        inventory.add(Item.KEYCARD);
+
+        assertEquals("BATTERIES. These are needed for the radio once you reach the guard room.", App.ExamineItemOfChoice(Item.BATTERIES, inventory, messages));
+        assertEquals("KEYCARD. You'll need this to get access to the guard room.", App.ExamineItemOfChoice(Item.KEYCARD, inventory, messages));
+    }
+
+    // testing examine when the pockets are empty or the item isn't there
+    @Test
+    void testExamineItemInvalid() throws Exception {
         EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+        ArrayList<Item> inventory = new ArrayList<>();
 
-        String result = App.ExamineItemOfChoice(scanner, inventory, messages);
+        assertEquals("Your pockets are empty.", App.ExamineItemOfChoice(Item.BATTERIES, inventory, messages));
 
-        assertEquals("BATTERIES. These are needed for the radio once you reach the guard room.", result);
-
+        // player has batteries but examines the keycard
+        inventory.add(Item.BATTERIES);
+        assertEquals("You don't have that item.", App.ExamineItemOfChoice(Item.KEYCARD, inventory, messages));
     }
 
     @Test
@@ -288,6 +288,7 @@ public class AppTest {
     }
 
 
-} 
+}
+
 
 

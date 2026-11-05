@@ -127,7 +127,7 @@ public class App {
         }
     }
 
-    public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
+    public static String ExamineItemOfChoice(Item item, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages) {
 
         itemMessages.put(Item.BATTERIES, "BATTERIES. These are needed for the radio once you reach the guard room.");
@@ -136,19 +136,14 @@ public class App {
         if (inventory.isEmpty()) {
             return "Your pockets are empty.";
         }
-        //String currentItems = CheckWhatInInventory(inventory);
-        //System.out.println(currentItems);
 
-        System.out.println("Which item do you want to examine? ");
-        String choice = scanner.nextLine().trim().toUpperCase();
-
-        for (Item currentItem : inventory) {
-            if (currentItem.name().equals(choice)) {
-                return itemMessages.get(currentItem);
-            }
+        if (inventory.contains(item)) {
+            return itemMessages.get(item);
         }
-        return "You don't have that.";
+
+        return "You don't have that item.";
     }
+    
 
     static String lookAroundRoom(Room playerLocation) {
         // as a player, I would like to type "look" to 'scan' a room for useful
