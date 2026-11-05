@@ -250,7 +250,7 @@ public class App {
     }
 
     // checks whether player has keycard to guarddoor
-    public static boolean OpenLockedDoorWithKey(Scanner scanner, ArrayList<Item> inventory,
+    public static boolean OpenLockedDoorWithKey(ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages, Room playerLocation) {
 
         if (playerLocation == Room.GUARDROOM && inventory.contains(Item.BATTERIES)
@@ -270,5 +270,7 @@ public class App {
         return true;
 
     }
+
+
 
 }

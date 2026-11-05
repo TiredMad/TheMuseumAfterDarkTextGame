@@ -5,33 +5,34 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AppTest {
-    @Test 
-    void initialiseRoomsHappyPath() throws Exception
-    {
+    @Test
+    void initialiseRoomsHappyPath() throws Exception {
         int size = App.initialise_room_messages().size();
         assertEquals(7, size);
     }
 
-   @Test 
-   void tryToPrintMapAfterClear(){
-    EnumMap<Room, String> testMap = null;
-    
-    assertThrows(Exception.class, ()-> {App.PrintRoomMessage(testMap, Room.CAFE);});
-   }
-   
     @Test
-      void validateLookAroundRoom() {
-          assertEquals("you some batteries. they might be useful", App.lookAroundRoom(Room.GIFTSHOP));
-          assertEquals("you see a keycard. it might be useful", App.lookAroundRoom(Room.STAFFROOM));
-          assertEquals("you don't see any useful items", App.lookAroundRoom(Room.MAINHALL));
-          assertThrows(NullPointerException.class, () -> App.lookAroundRoom(null));
-      }
-    
+    void tryToPrintMapAfterClear() {
+        EnumMap<Room, String> testMap = null;
+
+        assertThrows(Exception.class, () -> {
+            App.PrintRoomMessage(testMap, Room.CAFE);
+        });
+    }
+
+    @Test
+    void validateLookAroundRoom() {
+        assertEquals("you some batteries. they might be useful", App.lookAroundRoom(Room.GIFTSHOP));
+        assertEquals("you see a keycard. it might be useful", App.lookAroundRoom(Room.STAFFROOM));
+        assertEquals("you don't see any useful items", App.lookAroundRoom(Room.MAINHALL));
+        assertThrows(NullPointerException.class, () -> App.lookAroundRoom(null));
+    }
+
     // test the correct room is given when the direction is valid
     // covering every direction at least once
     // every current location at least once
     // every return location at least once
-    @Test 
+    @Test
     void testGetNextRoomValid() throws Exception {
         EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
 
@@ -49,8 +50,9 @@ public class AppTest {
         assertEquals(Room.GUARDROOM, App.getNextRoom(Direction.NORTH, Room.UPPERLANDING, map));
     }
 
-    // testing every room where there is a possibility the direction given can return null
-    @Test 
+    // testing every room where there is a possibility the direction given can
+    // return null
+    @Test
     void testGetNextRoomInvalid() throws Exception {
         EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
 
@@ -63,7 +65,7 @@ public class AppTest {
     }
 
     // testing it corret room is returned when a move is valid
-    @Test 
+    @Test
     void testMoveValid() throws Exception {
         EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
 
@@ -86,46 +88,44 @@ public class AppTest {
         assertEquals(Room.GIFTSHOP, App.move(Direction.EAST, Room.GIFTSHOP, map));
         assertEquals(Room.STAFFROOM, App.move(Direction.NORTH, Room.STAFFROOM, map));
         assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.UPPERLANDING, map));
-        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));  
+        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));
     }
 
-    //tests for initialising the object EnumMap and adding an item to your inventory
+    // tests for initialising the object EnumMap and adding an item to your
+    // inventory
 
     @Test
     void AddItemToInventoryHappyPath() throws Exception {
-        EnumMap<Room,Item> roomItems = App.InitialiseItemEnumMap();
+        EnumMap<Room, Item> roomItems = App.InitialiseItemEnumMap();
         ArrayList<Item> inventory = new ArrayList<>();
         assertEquals(false, inventory.contains(Item.BATTERIES));
-        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.GIFTSHOP, inventory );
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.GIFTSHOP, inventory);
 
-       assertEquals(true, inventory.contains(Item.BATTERIES));
-       assertEquals(false, roomItems.containsValue(Item.BATTERIES));
+        assertEquals(true, inventory.contains(Item.BATTERIES));
+        assertEquals(false, roomItems.containsValue(Item.BATTERIES));
 
-       assertEquals(false, inventory.contains(Item.COIN));
-        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.CAFE, inventory );
+        assertEquals(false, inventory.contains(Item.COIN));
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.CAFE, inventory);
 
-       assertEquals(true, inventory.contains(Item.COIN));
-       assertEquals(false, roomItems.containsValue(Item.COIN));
+        assertEquals(true, inventory.contains(Item.COIN));
+        assertEquals(false, roomItems.containsValue(Item.COIN));
 
-       assertEquals(false, inventory.contains(Item.GUIDEBOOK));
-        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.DINOSAURGALLERY, inventory );
+        assertEquals(false, inventory.contains(Item.GUIDEBOOK));
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.DINOSAURGALLERY, inventory);
 
-       assertEquals(true, inventory.contains(Item.GUIDEBOOK));
-       assertEquals(false, roomItems.containsValue(Item.GUIDEBOOK));
+        assertEquals(true, inventory.contains(Item.GUIDEBOOK));
+        assertEquals(false, roomItems.containsValue(Item.GUIDEBOOK));
 
-       assertEquals(false, inventory.contains(Item.KEYCARD));
-        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.STAFFROOM, inventory );
+        assertEquals(false, inventory.contains(Item.KEYCARD));
+        App.PutItemInInventoryAndRemoveFromRoom(roomItems, Room.STAFFROOM, inventory);
 
-       assertEquals(true, inventory.contains(Item.KEYCARD));
-       assertEquals(false, roomItems.containsValue(Item.KEYCARD));
-
-
-
+        assertEquals(true, inventory.contains(Item.KEYCARD));
+        assertEquals(false, roomItems.containsValue(Item.KEYCARD));
 
     }
 
-@Test
-void IfInventoryIsEmptyMessageShown() {
+    @Test
+    void IfInventoryIsEmptyMessageShown() {
         Scanner scanner = new Scanner("");
         ArrayList<Item> inventory = new ArrayList<>();
         EnumMap<Item, String> messages = new EnumMap<>(Item.class);
@@ -134,11 +134,10 @@ void IfInventoryIsEmptyMessageShown() {
 
         assertEquals("Your pockets are empty.", result);
 
+    }
 
-}
-
-@Test 
-void ExamineItemsInInventory(){
+    @Test
+    void ExamineItemsInInventory() {
         Scanner scanner = new Scanner("BATTERIES");
         ArrayList<Item> inventory = new ArrayList<>();
         inventory.add(Item.BATTERIES);
@@ -148,19 +147,52 @@ void ExamineItemsInInventory(){
 
         assertEquals("BATTERIES. These are needed for the radio once you reach the guard room.", result);
 
-}
+    }
 
-@Test
-void ExamineItemsYouDontHave(){
-       Scanner scanner = new Scanner("BATTERIES");
-       ArrayList<Item> inventory = new ArrayList<>();
-       inventory.add(Item.KEYCARD);
-       EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+    @Test
+    void ExamineItemsYouDontHave() {
+        Scanner scanner = new Scanner("BATTERIES");
+        ArrayList<Item> inventory = new ArrayList<>();
+        inventory.add(Item.KEYCARD);
+        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
 
-       String result = App.ExamineItemOfChoice(scanner, inventory, messages);
+        String result = App.ExamineItemOfChoice(scanner, inventory, messages);
 
-       assertEquals("You don't have that item.", result);
+        assertEquals("You don't have that.", result);
+        
+    }
+
+    @Test
+    void testOpenDoorWithBothItems() {
+        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+        ArrayList<Item> inventory = new ArrayList<>();
+        inventory.add(Item.KEYCARD);
+        inventory.add(Item.BATTERIES);
+
+        assertTrue(App.OpenLockedDoorWithKey(inventory, messages, Room.GUARDROOM));
+    }
+
+    // door opens with just the keycard in the guard room
+    @Test
+    void testOpenDoorWithKeycardOnly() {
+        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+        ArrayList<Item> inventory = new ArrayList<>();
+        inventory.add(Item.KEYCARD);
+
+        assertTrue(App.OpenLockedDoorWithKey(inventory, messages, Room.GUARDROOM));
+    }
+
+    // door stays shut without the keycard
+    @Test
+    void testOpenDoorWithoutKeycard() {
+        EnumMap<Item, String> messages = new EnumMap<>(Item.class);
+        ArrayList<Item> inventory = new ArrayList<>();
+        inventory.add(Item.BATTERIES);
+
+        assertFalse(App.OpenLockedDoorWithKey(inventory, messages, Room.GUARDROOM));
+    }
+
+    
+    }
 
 
-}
-}
