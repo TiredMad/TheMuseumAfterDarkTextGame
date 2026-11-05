@@ -248,4 +248,29 @@ public class App {
     ) {
         return map.get(room).get(directionHeading);
     }
+
+    // checks whether player has keycard to guarddoor
+    public static boolean OpenLockedDoorWithKey(ArrayList<Item> inventory,
+            EnumMap<Item, String> itemMessages, Room playerLocation) {
+
+        if (playerLocation == Room.GUARDROOM && inventory.contains(Item.BATTERIES)
+                && (inventory.contains(Item.KEYCARD))) {
+            return true;
+        }
+
+        else if (playerLocation == Room.GUARDROOM && !inventory.contains(Item.KEYCARD)) {
+            System.out.print("Access deined you need a KEYCARD!");
+            return false;
+        }
+
+        else if (playerLocation == Room.GUARDROOM && inventory.contains(Item.KEYCARD)
+                && !inventory.contains(Item.BATTERIES)) {
+            System.out.print("Access granted \n Hint (Source of power needed for radio)");
+        }
+        return true;
+
+    }
+
+
+
 }
