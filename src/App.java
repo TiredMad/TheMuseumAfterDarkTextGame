@@ -87,10 +87,11 @@ public class App {
         };
 
         switch (command) {
-            case Command.LOOK, Command.INVENTORY, Command.NORTH, Command.EAST, Command.SOUTH, Command.WEST -> {
+            case Command.LOOK, Command.EXAMINE, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
+                    Command.SOUTH, Command.WEST -> {
                 return new ParsedCommand(command, null);
             }
-            default -> {
+            case Command.USE -> {
             }
         }
 
