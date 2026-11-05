@@ -29,7 +29,13 @@ public class App {
             // print current location
             System.out.println(messages.get(playerLocation));
 
-            ParsedCommand command = readAndParseCommand();
+            ParsedCommand command;
+            try {
+                command = readAndParseCommand();
+            } catch (ParserException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
 
             switch (command.command()) {
                 case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation));
@@ -55,7 +61,7 @@ public class App {
 
     // asks user for input and converts to command enum
     // throws exception for invalid input
-    public static ParsedCommand readAndParseCommand() throws Exception {
+    public static ParsedCommand readAndParseCommand() throws ParserException {
         // take input from user
         System.out.printf("Enter command: ");
         String input = stdin.nextLine();
@@ -73,7 +79,7 @@ public class App {
             case "east" -> Command.EAST;
             case "south" -> Command.SOUTH;
             case "west" -> Command.WEST;
-            default -> throw new Exception("Invalid Command");
+            default -> throw new ParserException("Invalid Command");
         };
 
         switch (command) {
@@ -85,7 +91,7 @@ public class App {
         }
 
         if (words.length < 2) {
-            throw new Exception("Invalid Command");
+            throw new ParserException("Invalid Command");
         }
 
         Item item = switch (words[1].toLowerCase()) {
