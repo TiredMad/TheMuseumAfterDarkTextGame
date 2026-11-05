@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Scanner;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -250,16 +249,15 @@ public class AppTest {
     }
 
 
+    @Test
     void ExamineItemsYouDontHave() {
-        Scanner scanner = new Scanner("BATTERIES");
         ArrayList<Item> inventory = new ArrayList<>();
         inventory.add(Item.KEYCARD);
         EnumMap<Item, String> messages = new EnumMap<>(Item.class);
 
-        String result = App.ExamineItemOfChoice(scanner, inventory, messages);
+        String result = App.ExamineItemOfChoice(Item.BATTERIES, inventory, messages);
 
-        assertEquals("You don't have that.", result);
-        
+        assertEquals("You don't have that item.", result);
     }
 
     @Test
