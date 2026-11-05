@@ -68,27 +68,32 @@ public class AppTest {
     @Test
     void testMoveValid() throws Exception {
         EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
+        ArrayList<Item> inventory = new ArrayList<>();
+        EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
 
-        assertEquals(Room.MAINHALL, App.move(Direction.NORTH, Room.CAFE, map));
-        assertEquals(Room.MAINHALL, App.move(Direction.EAST, Room.DINOSAURGALLERY, map));
-        assertEquals(Room.CAFE, App.move(Direction.SOUTH, Room.MAINHALL, map));
-        assertEquals(Room.MAINHALL, App.move(Direction.WEST, Room.GIFTSHOP, map));
-        assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.STAFFROOM, map));
-        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.UPPERLANDING, map));
-        assertEquals(Room.UPPERLANDING, App.move(Direction.SOUTH, Room.GUARDROOM, map));
+        assertEquals(Room.MAINHALL, App.move(Direction.NORTH, Room.CAFE, map, inventory, itemMessages));
+        assertEquals(Room.MAINHALL, App.move(Direction.EAST, Room.DINOSAURGALLERY, map, inventory, itemMessages));
+        assertEquals(Room.CAFE, App.move(Direction.SOUTH, Room.MAINHALL, map, inventory, itemMessages));
+        assertEquals(Room.MAINHALL, App.move(Direction.WEST, Room.GIFTSHOP, map, inventory, itemMessages));
+        assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.STAFFROOM, map, inventory, itemMessages));
+        inventory.add(Item.KEYCARD);
+        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.UPPERLANDING, map, inventory, itemMessages));
+        assertEquals(Room.UPPERLANDING, App.move(Direction.SOUTH, Room.GUARDROOM, map, inventory, itemMessages));
     }
 
     // Testing invalid moves, the player should stay where they are
     @Test
     void testMoveInvalid() throws Exception {
         EnumMap<Room, EnumMap<Direction, Room>> map = App.initialiseMap();
+        ArrayList<Item> inventory = new ArrayList<>();
+        EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
 
-        assertEquals(Room.CAFE, App.move(Direction.SOUTH, Room.CAFE, map));
-        assertEquals(Room.DINOSAURGALLERY, App.move(Direction.WEST, Room.DINOSAURGALLERY, map));
-        assertEquals(Room.GIFTSHOP, App.move(Direction.EAST, Room.GIFTSHOP, map));
-        assertEquals(Room.STAFFROOM, App.move(Direction.NORTH, Room.STAFFROOM, map));
-        assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.UPPERLANDING, map));
-        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map));
+        assertEquals(Room.CAFE, App.move(Direction.SOUTH, Room.CAFE, map, inventory, itemMessages));
+        assertEquals(Room.DINOSAURGALLERY, App.move(Direction.WEST, Room.DINOSAURGALLERY, map, inventory, itemMessages));
+        assertEquals(Room.GIFTSHOP, App.move(Direction.EAST, Room.GIFTSHOP, map, inventory, itemMessages));
+        assertEquals(Room.STAFFROOM, App.move(Direction.NORTH, Room.STAFFROOM, map, inventory, itemMessages));
+        assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.UPPERLANDING, map, inventory, itemMessages));
+        assertEquals(Room.GUARDROOM, App.move(Direction.NORTH, Room.GUARDROOM, map, inventory, itemMessages));
     }
 
     // tests for initialising the object EnumMap and adding an item to your
