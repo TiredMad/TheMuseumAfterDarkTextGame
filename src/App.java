@@ -14,7 +14,12 @@ public class App {
         EnumMap<Room, Item> roomItems = createRoomItems();
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
+        
+        // current player location
         Room playerLocation = Room.CAFE;
+
+        // previous player location
+        Room prevPlayerLocation = null;
 
         // the world map
         final EnumMap<Room, EnumMap<Direction, Room>> MAP = initialiseMap();
@@ -29,8 +34,14 @@ public class App {
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
         while (!isGameComplete) {
-            // print current location
-            System.out.println(roomMessages.get(playerLocation));
+            
+            // check if player has moved to print new room message.
+            if (prevPlayerLocation != playerLocation) {
+                // print current location
+                System.out.printf("================\n%s\n================\n\n", playerLocation);
+                System.out.println(roomMessages.get(playerLocation));
+                prevPlayerLocation = playerLocation;
+            }
 
             ParsedCommand command;
             try {
@@ -83,11 +94,11 @@ public class App {
         };
 
         switch (command) {
-            case Command.LOOK, Command.EXAMINE, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
+            case Command.LOOK, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
                     Command.SOUTH, Command.WEST -> {
                 return new ParsedCommand(command, null);
             }
-            case Command.USE -> {
+            case Command.USE, Command.EXAMINE -> {
             }
         }
 
@@ -183,7 +194,6 @@ public class App {
         if(messages.get(room)== null){
             throw new Exception("no message available");
         }
-        
         System.out.printf("%s\n", messages.get(room));
     }
 
@@ -309,6 +319,12 @@ public class App {
 
     public static String useItem(Item item, ArrayList<Item> userInventory, Room playerLocation) {
 
+        // item function to be implemented in a future version :)
+        if (item == Item.COIN && userInventory.contains(Item.COIN) ||
+                item == Item.GUIDEBOOK && userInventory.contains(Item.GUIDEBOOK)) {
+            return "This is DLC content!";
+        }
+
         // we currently only track two items
         // the keycard will automatically open a door so we dont need to handle this
         if (item == Item.KEYCARD && userInventory.contains(Item.KEYCARD)) {
@@ -329,6 +345,7 @@ public class App {
 
         return "You do not have that item!";
     }
+
     // checks whether player has keycard to guarddoor
     public static boolean OpenLockedDoorWithKey(ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages, Room playerLocation) {
