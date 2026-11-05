@@ -29,7 +29,7 @@ public class App {
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
-        while (isGameComplete) {
+        while (!isGameComplete) {
             // print current location
             System.out.println(messages.get(playerLocation));
 
