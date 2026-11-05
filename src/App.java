@@ -35,7 +35,7 @@ public class App {
 
             switch (command.command()) {
                 case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation));
-                //case Command.EXAMINE -> examine();
+                case Command.EXAMINE -> System.out.println(ExamineItemOfChoice(stdin, inventory, itemMessages));
                 case Command.INVENTORY -> inventory(inventory);
                 //case Command.PICKUP -> pickup();
                 //case Command.USE -> use();
@@ -119,7 +119,7 @@ public class App {
         }
     }
 
-    public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
+    public static String ExamineItemOfChoice(Scanner stdin, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages) {
 
         itemMessages.put(Item.BATTERIES, "BATTERIES. These are needed for the radio once you reach the guard room.");
@@ -132,7 +132,7 @@ public class App {
         //System.out.println(currentItems);
 
         System.out.println("Which item do you want to examine? ");
-        String choice = scanner.nextLine().trim().toUpperCase();
+        String choice = stdin.nextLine().trim().toUpperCase();
 
         for (Item currentItem : inventory) {
             if (currentItem.name().equals(choice)) {
