@@ -32,7 +32,7 @@ public class App {
             ParsedCommand command = readAndParseCommand();
 
             switch (command.command()) {
-                //case Command.LOOK -> look();
+                case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation));
                 //case Command.EXAMINE -> examine();
                 //case Command.INVENTORY -> inventory();
                 //case Command.PICKUP -> pickup();
