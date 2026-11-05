@@ -124,13 +124,8 @@ public class App {
             throw new ParserException("Invalid command");
         }
 
-        switch (command) {
-            case Command.LOOK, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
-                    Command.SOUTH, Command.WEST, Command.HELP -> {
-                return new ParsedCommand(command, null);
-            }
-            case Command.USE, Command.EXAMINE -> {
-            }
+        if (command != Command.USE && command != Command.EXAMINE) {
+            return new ParsedCommand(command, null);
         }
 
         if (words.length < 2) {
