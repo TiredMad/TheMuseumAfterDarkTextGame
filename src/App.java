@@ -57,11 +57,6 @@ public class App {
         //PrintRoomMessage(messages, playerLocation);
     }
 
-    // TODO
-    static boolean isGameComplete() {
-        return false;
-    }
-
     // asks user for input and converts to command enum
     // throws exception for invalid input
     public static ParsedCommand readAndParseCommand() throws ParserException {
