@@ -33,7 +33,7 @@ public class App {
 
             switch (command) {
                 //case Command.LOOK -> look();
-                case Command.EXAMINE -> ExamineItemOfChoice(stdin, inventory, itemMessages);
+                case Command.EXAMINE -> System.out.println(ExamineItemOfChoice(stdin, inventory, itemMessages));
                 //case Command.INVENTORY -> inventory();
                 //case Command.PICKUP -> pickup();
                 //case Command.USE -> use();
