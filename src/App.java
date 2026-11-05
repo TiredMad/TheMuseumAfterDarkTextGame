@@ -14,7 +14,12 @@ public class App {
         EnumMap<Room, Item> roomItems = createRoomItems();
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
+        
+        // current player location
         Room playerLocation = Room.CAFE;
+
+        // previous player location
+        Room prevPlayerLocation = null;
 
         // the world map
         final EnumMap<Room, EnumMap<Direction, Room>> MAP = initialiseMap();
@@ -29,8 +34,13 @@ public class App {
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
         while (!isGameComplete) {
-            // print current location
-            System.out.println(roomMessages.get(playerLocation));
+            
+            // check if player has moved to print new room message.
+            if (prevPlayerLocation != playerLocation) {
+                // print current location
+                System.out.println(roomMessages.get(playerLocation));
+                prevPlayerLocation = playerLocation;
+            }
 
             ParsedCommand command;
             try {
@@ -183,7 +193,6 @@ public class App {
         if(messages.get(room)== null){
             throw new Exception("no message available");
         }
-        
         System.out.printf("%s\n", messages.get(room));
     }
 
