@@ -275,28 +275,26 @@ public class App {
         return map.get(room).get(directionHeading);
     }
 
-    // use item 
-    public static void useItem(Item item, ArrayList<Item> userInventory, Room playerLocation,
-            EnumMap<Item, String> itemMessages) {
-        // check the user has the item
-        if (!userInventory.contains(item)) {
-            System.out.println("You dont have that item.");
-        }
+    public static String useItem(Item item, ArrayList<Item> userInventory, Room playerLocation) {
 
         // we currently only track two items
         // the keycard will automatically open a door so we dont need to handle this
-        if (item == Item.KEYCARD) {
-            System.out.println(itemMessages.get(Item.KEYCARD));
+        if (item == Item.KEYCARD && userInventory.contains(Item.KEYCARD)) {
+            return "Looks like the key card has opened the guard room";
             // the batteries must be used in the guardroom to complete the game.
-        } else if (item == Item.BATTERIES) {
+        }
+
+        if (item == Item.BATTERIES && userInventory.contains(Item.BATTERIES)) {
             // check player is in the
             if (playerLocation == Room.GUARDROOM) {
                 // this wins the game
-                System.out.println("You put the batteries in the radio.");
                 isGameComplete = true;
+                return "You put the batteries in the radio.";
             } else {
-                System.out.println("The batteries can be used in the radio! Head to the guard room!");
+                return "The batteries can be used in the radio! Head to the guard room!";
             }
         }
+
+        return "You do not have that item!";
     }
 }

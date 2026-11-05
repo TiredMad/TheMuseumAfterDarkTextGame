@@ -122,4 +122,35 @@ public class AppTest {
 
 
     }
+
+    @Test
+    void testUseItem() throws Exception {
+        // test can use batteries in guard room
+        ArrayList<Item> inventory = new ArrayList<>();
+        inventory.add(Item.BATTERIES);
+        assertEquals(
+                "You put the batteries in the radio.",
+                App.useItem(Item.BATTERIES, inventory, Room.GUARDROOM));
+
+        // test cannot use batteries unless in guard room
+        assertEquals(
+                "The batteries can be used in the radio! Head to the guard room!",
+                App.useItem(Item.BATTERIES, inventory, Room.MAINHALL));
+
+        // get using key card
+        inventory.add(Item.KEYCARD);
+        assertEquals(
+                "Looks like the key card has opened the guard room",
+                App.useItem(Item.KEYCARD, inventory, Room.MAINHALL));
+
+        // test using an item not in inventory
+        inventory = new ArrayList<>();
+        assertEquals(
+                "You do not have that item!",
+                App.useItem(Item.KEYCARD, inventory, Room.MAINHALL));
+        assertEquals(
+                "You do not have that item!",
+                App.useItem(Item.BATTERIES, inventory, Room.MAINHALL));
+    }
+
 }
