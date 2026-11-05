@@ -1,8 +1,8 @@
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Scanner;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class AppTest {
     @Test

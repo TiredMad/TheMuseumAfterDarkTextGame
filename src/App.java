@@ -1,9 +1,9 @@
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Scanner;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 public class App {
 
     public static Scanner stdin = new Scanner(System.in);
