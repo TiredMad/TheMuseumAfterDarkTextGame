@@ -43,10 +43,10 @@ public class App {
 
             switch (command.command()) {
                 case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation));
-                //case Command.EXAMINE -> examine();
+                case Command.EXAMINE -> ExamineItemOfChoice(stdin, inventory, itemMessages);
                 case Command.INVENTORY -> inventory(inventory);
-                //case Command.PICKUP -> pickup();
-                //case Command.USE -> use();
+                case Command.PICKUP -> PickUp(playerLocation, roomItems, inventory);
+                case Command.USE -> useItem(command.item(), inventory, playerLocation);
                 case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP);
                 case Command.EAST -> playerLocation = move(Direction.EAST, playerLocation, MAP);
                 case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP);
