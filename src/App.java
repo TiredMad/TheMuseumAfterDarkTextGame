@@ -70,6 +70,18 @@ public class App {
         //PrintRoomMessage(messages, playerLocation);
     }
 
+    static void help() {
+        System.out.println("""
+                - help: shows commands in game
+                - look: find any useful items in the room
+                - inventory: reminder of what you're holding
+                - pickup: pickup a useful item in the room
+                - examine <item>: describe an item you're holding
+                - use <item>: do something with an item
+                - north, east, south, west: move between rooms
+                """);
+    }
+
     // asks user for input and converts to command enum
     // throws exception for invalid input
     public static ParsedCommand readAndParseCommand() throws ParserException {
