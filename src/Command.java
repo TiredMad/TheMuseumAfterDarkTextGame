@@ -7,5 +7,6 @@ public enum Command {
     NORTH,
     EAST,
     SOUTH,
-    WEST
+    WEST,
+    HELP
 }

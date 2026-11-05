@@ -33,6 +33,7 @@ public class App {
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
+        System.out.println("At any time, type help for options");
         while (!isGameComplete) {
             
             // check if player has moved to print new room message.
@@ -62,6 +63,7 @@ public class App {
                 case Command.EAST -> playerLocation = move(Direction.EAST, playerLocation, MAP, inventory, itemMessages);
                 case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP, inventory, itemMessages);
                 case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP, inventory, itemMessages);
+                case Command.HELP -> help();
             };
 
             System.out.println();
@@ -102,12 +104,13 @@ public class App {
             case "east" -> Command.EAST;
             case "south" -> Command.SOUTH;
             case "west" -> Command.WEST;
+            case "help" -> Command.HELP;
             default -> throw new ParserException("Invalid Command");
         };
 
         switch (command) {
             case Command.LOOK, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
-                    Command.SOUTH, Command.WEST -> {
+                    Command.SOUTH, Command.WEST, Command.HELP -> {
                 return new ParsedCommand(command, null);
             }
             case Command.USE, Command.EXAMINE -> {
