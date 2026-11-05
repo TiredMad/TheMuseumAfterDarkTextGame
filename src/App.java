@@ -117,20 +117,12 @@ public class App {
 
         String[] words = input.trim().split("\\s+");
 
-        // convert input to command enum
-        Command command = switch (words[0].toLowerCase()) {
-            case "look" -> Command.LOOK;
-            case "examine" -> Command.EXAMINE;
-            case "inventory" -> Command.INVENTORY;
-            case "pickup" -> Command.PICKUP;
-            case "use" -> Command.USE;
-            case "north" -> Command.NORTH;
-            case "east" -> Command.EAST;
-            case "south" -> Command.SOUTH;
-            case "west" -> Command.WEST;
-            case "help" -> Command.HELP;
-            default -> throw new ParserException("Invalid Command");
-        };
+        Command command;
+        try {
+            command = Command.valueOf(words[0].toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ParserException("Invalid command");
+        }
 
         switch (command) {
             case Command.LOOK, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
