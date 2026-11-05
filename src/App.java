@@ -34,7 +34,7 @@ public class App {
             switch (command.command()) {
                 case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation));
                 //case Command.EXAMINE -> examine();
-                //case Command.INVENTORY -> inventory();
+                case Command.INVENTORY -> inventory(inventory);
                 //case Command.PICKUP -> pickup();
                 //case Command.USE -> use();
                 case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP);
