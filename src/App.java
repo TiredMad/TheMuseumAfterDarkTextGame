@@ -6,6 +6,8 @@ public class App {
 
     public static Scanner stdin = new Scanner(System.in);
 
+    public static boolean isGameComplete = false;
+
     public static void main(String[] args) throws Exception {
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
@@ -25,16 +27,16 @@ public class App {
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
-        while (!isGameComplete()) {
+        while (isGameComplete) {
             // print current location
             System.out.println(messages.get(playerLocation));
 
-            Command command = readAndParseCommand();
+            ParsedCommand command = readAndParseCommand();
 
-            switch (command) {
-                //case Command.LOOK -> look();
+            switch (command.command()) {
+                case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation));
                 case Command.EXAMINE -> System.out.println(ExamineItemOfChoice(stdin, inventory, itemMessages));
-                //case Command.INVENTORY -> inventory();
+                case Command.INVENTORY -> inventory(inventory);
                 //case Command.PICKUP -> pickup();
                 //case Command.USE -> use();
                 case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP);
@@ -42,10 +44,10 @@ public class App {
                 case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP);
                 case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP);
             };
+
         }   
 
         //PrintRoomMessage(messages, playerLocation);
-
     }
 
     // TODO
@@ -55,13 +57,15 @@ public class App {
 
     // asks user for input and converts to command enum
     // throws exception for invalid input
-    public static Command readAndParseCommand() throws Exception {
+    public static ParsedCommand readAndParseCommand() throws Exception {
         // take input from user
-        System.out.printf("Enter move:");
+        System.out.printf("Enter command: ");
         String input = stdin.nextLine();
 
+        String[] words = input.split(" ");
+
         // convert input to command enum
-        return switch (input.toLowerCase()) {
+        Command command = switch (words[0].toLowerCase()) {
             case "look" -> Command.LOOK;
             case "examine" -> Command.EXAMINE;
             case "inventory" -> Command.INVENTORY;
@@ -73,6 +77,28 @@ public class App {
             case "west" -> Command.WEST;
             default -> throw new Exception("Invalid Command");
         };
+
+        switch (command) {
+            case Command.LOOK, Command.INVENTORY, Command.NORTH, Command.EAST, Command.SOUTH, Command.WEST -> {
+                return new ParsedCommand(command, null);
+            }
+            default -> {
+            }
+        }
+
+        if (words.length < 2) {
+            throw new Exception("Invalid Command");
+        }
+
+        Item item = switch (words[1].toLowerCase()) {
+            case "batteries" -> Item.BATTERIES;
+            case "keycard" -> Item.KEYCARD;
+            case "coin" -> Item.COIN;
+            case "guidebook" -> Item.GUIDEBOOK;
+            default -> null;
+        };
+
+        return new ParsedCommand(command, item);
     }
 
     static void inventory(ArrayList<Item> inventory) {
@@ -234,7 +260,7 @@ public class App {
         if (nextRoom != null) {
             return nextRoom;
         } else {
-            System.out.print("There is no way to go!");
+            System.out.println("There is no door in that direction!!");
             return playerCurrentRoom;
         }
     }
@@ -249,6 +275,28 @@ public class App {
         return map.get(room).get(directionHeading);
     }
 
+    public static String useItem(Item item, ArrayList<Item> userInventory, Room playerLocation) {
+
+        // we currently only track two items
+        // the keycard will automatically open a door so we dont need to handle this
+        if (item == Item.KEYCARD && userInventory.contains(Item.KEYCARD)) {
+            return "Looks like the key card has opened the guard room";
+            // the batteries must be used in the guardroom to complete the game.
+        }
+
+        if (item == Item.BATTERIES && userInventory.contains(Item.BATTERIES)) {
+            // check player is in the
+            if (playerLocation == Room.GUARDROOM) {
+                // this wins the game
+                isGameComplete = true;
+                return "You put the batteries in the radio.";
+            } else {
+                return "The batteries can be used in the radio! Head to the guard room!";
+            }
+        }
+
+        return "You do not have that item!";
+    }
     // checks whether player has keycard to guarddoor
     public static boolean OpenLockedDoorWithKey(ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages, Room playerLocation) {
