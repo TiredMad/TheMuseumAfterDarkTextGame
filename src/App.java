@@ -1,9 +1,9 @@
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Scanner;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 public class App {
 
     public static Scanner stdin = new Scanner(System.in);
@@ -11,8 +11,7 @@ public class App {
     public static boolean isGameComplete = false;
 
     public static void main(String[] args) throws Exception {
-        EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
-        EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
+        EnumMap<Room, Item> roomItems = createRoomItems();
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
         Room playerLocation = Room.CAFE;
@@ -21,7 +20,7 @@ public class App {
         final EnumMap<Room, EnumMap<Direction, Room>> MAP = initialiseMap();
 
         // room messages
-        EnumMap<Room, String> messages = initialise_room_messages();
+        EnumMap<Room, String> roomMessages = initialise_room_messages();
 
         // Example use
         // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
@@ -31,7 +30,7 @@ public class App {
         // TODO: Starting dialog
         while (!isGameComplete) {
             // print current location
-            System.out.println(messages.get(playerLocation));
+            System.out.println(roomMessages.get(playerLocation));
 
             ParsedCommand command;
             try {
@@ -47,20 +46,16 @@ public class App {
                 case Command.INVENTORY -> inventory(inventory);
                 case Command.PICKUP -> System.out.println(PickUp(playerLocation, roomItems, inventory));
                 case Command.USE -> System.out.println(useItem(command.item(), inventory, playerLocation));
-                case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP);
-                case Command.EAST -> playerLocation = move(Direction.EAST, playerLocation, MAP);
-                case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP);
-                case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP);
+                case Command.NORTH -> playerLocation = move(Direction.NORTH, playerLocation, MAP, inventory, itemMessages);
+                case Command.EAST -> playerLocation = move(Direction.EAST, playerLocation, MAP, inventory, itemMessages);
+                case Command.SOUTH -> playerLocation = move(Direction.SOUTH, playerLocation, MAP, inventory, itemMessages);
+                case Command.WEST -> playerLocation = move(Direction.WEST, playerLocation, MAP, inventory, itemMessages);
             };
 
+            System.out.println();
         }   
 
         //PrintRoomMessage(messages, playerLocation);
-    }
-
-    // TODO
-    static boolean isGameComplete() {
-        return false;
     }
 
     // asks user for input and converts to command enum
@@ -87,10 +82,11 @@ public class App {
         };
 
         switch (command) {
-            case Command.LOOK, Command.INVENTORY, Command.NORTH, Command.EAST, Command.SOUTH, Command.WEST -> {
+            case Command.LOOK, Command.EXAMINE, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
+                    Command.SOUTH, Command.WEST -> {
                 return new ParsedCommand(command, null);
             }
-            default -> {
+            case Command.USE -> {
             }
         }
 
@@ -155,6 +151,16 @@ public class App {
             case Room.STAFFROOM -> "you see a keycard. it might be useful";
             default -> "you don't see any useful items";
         };
+    }
+
+    static EnumMap<Room, Item> createRoomItems() {
+        EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
+        roomItems.put(Room.CAFE, Item.COIN);
+        roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
+        roomItems.put(Room.DINOSAURGALLERY, Item.GUIDEBOOK);
+        roomItems.put(Room.STAFFROOM, Item.KEYCARD);
+
+        return roomItems;
     }
     
     // Making the array of room messages, will make them more descriptive later -
@@ -271,9 +277,17 @@ public class App {
     public static Room move(
         Direction directionToMove, 
         Room playerCurrentRoom,
-        EnumMap<Room, EnumMap<Direction, Room>> map
+        EnumMap<Room, EnumMap<Direction, Room>> map,
+        ArrayList<Item> inventory,
+        EnumMap<Item, String> itemMessages
     ) {
         Room nextRoom = getNextRoom(directionToMove, playerCurrentRoom, map);
+
+        // Only allow access to the guard room if we have the keycard.
+        if (nextRoom == Room.GUARDROOM && !OpenLockedDoorWithKey(inventory, itemMessages, nextRoom)) {
+            return playerCurrentRoom;
+        }
+
         if (nextRoom != null) {
             return nextRoom;
         } else {
