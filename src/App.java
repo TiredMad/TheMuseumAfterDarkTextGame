@@ -115,7 +115,7 @@ public class App {
         System.out.printf("Enter command: ");
         String input = stdin.nextLine();
 
-        String[] words = input.split(" ");
+        String[] words = input.trim().split("\\s+");
 
         // convert input to command enum
         Command command = switch (words[0].toLowerCase()) {
