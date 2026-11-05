@@ -122,7 +122,72 @@ public class AppTest {
         assertEquals(true, inventory.contains(Item.KEYCARD));
         assertEquals(false, roomItems.containsValue(Item.KEYCARD));
 
+
+
+
     }
+
+    @Test
+    void PickUpPositive() throws Exception {
+
+        EnumMap<Room, Item> roomItems = App.InitialiseItemEnumMap();
+        Room playerLocation = Room.CAFE;
+        ArrayList<Item> inventory = new ArrayList<>();
+
+        App.PickUp(playerLocation, roomItems, inventory);
+
+        assertEquals(true, !roomItems.containsKey(Room.CAFE));
+
+        roomItems = App.InitialiseItemEnumMap();
+        playerLocation = Room.DINOSAURGALLERY;
+        inventory = new ArrayList<>();
+
+        App.PickUp(playerLocation, roomItems, inventory);
+
+        assertEquals(true, !roomItems.containsKey(Room.DINOSAURGALLERY));
+
+        roomItems = App.InitialiseItemEnumMap();
+        playerLocation = Room.GIFTSHOP;
+        inventory = new ArrayList<>();
+
+        App.PickUp(playerLocation, roomItems, inventory);
+
+        assertEquals(true, !roomItems.containsKey(Room.GIFTSHOP));
+
+        roomItems = App.InitialiseItemEnumMap();
+        playerLocation = Room.STAFFROOM;
+        inventory = new ArrayList<>();
+
+        App.PickUp(playerLocation, roomItems, inventory);
+
+        assertEquals(true, !roomItems.containsKey(Room.STAFFROOM));
+
+        roomItems = App.InitialiseItemEnumMap();
+        playerLocation = Room.MAINHALL;
+        inventory = new ArrayList<>();
+
+        App.PickUp(playerLocation, roomItems, inventory);
+
+        assertEquals(false, roomItems.containsKey(Room.MAINHALL));
+
+       
+
+    }
+
+    @Test
+    void PickUpNegative() throws Exception{
+        EnumMap <Room, Item> roomItems = App.InitialiseItemEnumMap();
+       
+        ArrayList<Item> inventory = new ArrayList<>();
+
+        assertEquals("You cannot see any useful items in this room.", App.PickUp(Room.MAINHALL, roomItems, inventory)); 
+        assertEquals("You cannot see any useful items in this room.", App.PickUp(Room.UPPERLANDING, roomItems, inventory));
+        assertEquals("You cannot see any useful items in this room.", App.PickUp(Room.GUARDROOM, roomItems, inventory));
+
+        
+    }
+
+    
 
     @Test
     void IfInventoryIsEmptyMessageShown() {
@@ -179,7 +244,7 @@ public class AppTest {
                 App.useItem(Item.BATTERIES, inventory, Room.MAINHALL));
     }
 
-}
+
     void ExamineItemsYouDontHave() {
         Scanner scanner = new Scanner("BATTERIES");
         ArrayList<Item> inventory = new ArrayList<>();
@@ -222,7 +287,7 @@ public class AppTest {
         assertFalse(App.OpenLockedDoorWithKey(inventory, messages, Room.GUARDROOM));
     }
 
-    
-    }
+
+} 
 
 
