@@ -11,7 +11,7 @@ public class App {
     public static boolean isGameComplete = false;
 
     public static void main(String[] args) throws Exception {
-        EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
+        EnumMap<Room, Item> roomItems = createRoomItems();
         EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
@@ -161,6 +161,16 @@ public class App {
             case Room.STAFFROOM -> "you see a keycard. it might be useful";
             default -> "you don't see any useful items";
         };
+    }
+
+    static EnumMap<Room, Item> createRoomItems() {
+        EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
+        roomItems.put(Room.CAFE, Item.COIN);
+        roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
+        roomItems.put(Room.DINOSAURGALLERY, Item.GUIDEBOOK);
+        roomItems.put(Room.STAFFROOM, Item.KEYCARD);
+
+        return roomItems;
     }
     
     // Making the array of room messages, will make them more descriptive later -
