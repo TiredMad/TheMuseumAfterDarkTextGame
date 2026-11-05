@@ -132,15 +132,12 @@ public class App {
             throw new ParserException("Invalid Command");
         }
 
-        Item item = switch (words[1].toLowerCase()) {
-            case "batteries" -> Item.BATTERIES;
-            case "keycard" -> Item.KEYCARD;
-            case "coin" -> Item.COIN;
-            case "guidebook" -> Item.GUIDEBOOK;
-            default -> throw new ParserException("Invalid item.");
-        };
-
-        return new ParsedCommand(command, item);
+        try {
+            Item item = Item.valueOf(words[1].toUpperCase());
+            return new ParsedCommand(command, item);
+        } catch(IllegalArgumentException e) {
+            throw new ParserException("Unknown item");
+        }
     }
 
     static void inventory(ArrayList<Item> inventory) {
