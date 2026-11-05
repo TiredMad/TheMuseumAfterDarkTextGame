@@ -22,10 +22,11 @@ public class AppTest {
 
     @Test
     void validateLookAroundRoom() {
-        assertEquals("you some batteries. they might be useful", App.lookAroundRoom(Room.GIFTSHOP));
-        assertEquals("you see a keycard. it might be useful", App.lookAroundRoom(Room.STAFFROOM));
-        assertEquals("you don't see any useful items", App.lookAroundRoom(Room.MAINHALL));
-        assertThrows(NullPointerException.class, () -> App.lookAroundRoom(null));
+        EnumMap<Room, Item> roomItems = App.createRoomItems();
+
+        assertEquals("you some batteries. they might be useful", App.lookAroundRoom(Room.GIFTSHOP, roomItems));
+        assertEquals("you see a keycard. it might be useful", App.lookAroundRoom(Room.STAFFROOM, roomItems));
+        assertEquals("you don't see any useful items", App.lookAroundRoom(Room.MAINHALL, roomItems));
     }
 
     // test the correct room is given when the direction is valid

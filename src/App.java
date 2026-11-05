@@ -52,7 +52,7 @@ public class App {
             }
 
             switch (command.command()) {
-                case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation));
+                case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation, roomItems));
                 
                 case Command.INVENTORY -> inventory(inventory);
                 case Command.PICKUP -> System.out.println(PickUp(playerLocation, roomItems, inventory));
@@ -153,7 +153,12 @@ public class App {
     }
     
 
-    static String lookAroundRoom(Room playerLocation) {
+    static String lookAroundRoom(Room playerLocation, EnumMap<Room, Item> roomItems) {
+        Item item = roomItems.get(playerLocation);
+        if (item == null) {
+            return "you don't see any useful items";
+        }
+
         // as a player, I would like to type "look" to 'scan' a room for useful
         // items so that I know if an item is present within the room I am in.
         return switch (playerLocation) {
