@@ -99,6 +99,24 @@ public class App {
         return new ParsedCommand(command, item);
     }
 
+    static void inventory(ArrayList<Item> inventory) {
+        if (inventory.size() == 0) {
+            System.out.println("You have nothing in your inventory.");
+            return;
+        }
+
+        String itemPlural = inventory.size() == 1 ? "item" : "items";
+        System.out.println("You have " + inventory.size() + " " + itemPlural + " in your inventory:");
+        for (Item item : inventory) {
+            switch (item) {
+                case Item.BATTERIES -> System.out.println("- Batteries");
+                case Item.KEYCARD -> System.out.println("- Keycard");
+                case Item.COIN -> System.out.println("- Coin");
+                case Item.GUIDEBOOK -> System.out.println("- Guidebook");
+            }
+        }
+    }
+
     public static String ExamineItemOfChoice(Scanner scanner, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages) {
 
@@ -166,6 +184,17 @@ public class App {
         roomItems.put(Room.STAFFROOM, Item.KEYCARD);
 
         return roomItems;
+    }
+
+    public static void PutItemInInventoryAndRemoveFromRoom(EnumMap<Room, Item> roomItems, Room playerLocation, ArrayList<Item> inventory ){
+        inventory.add(roomItems.get(playerLocation));
+
+        System.out.println(roomItems.get(playerLocation) + " was added to your inventory");
+        roomItems.remove(playerLocation);
+        
+        
+
+        
     }
 
     // Initialises the world map
