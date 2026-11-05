@@ -12,7 +12,6 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         EnumMap<Room, Item> roomItems = createRoomItems();
-        EnumMap<Room, String> roomMessages = new EnumMap<>(Room.class);
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
         Room playerLocation = Room.CAFE;
@@ -21,7 +20,7 @@ public class App {
         final EnumMap<Room, EnumMap<Direction, Room>> MAP = initialiseMap();
 
         // room messages
-        EnumMap<Room, String> messages = initialise_room_messages();
+        EnumMap<Room, String> roomMessages = initialise_room_messages();
 
         // Example use
         // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
@@ -31,7 +30,7 @@ public class App {
         // TODO: Starting dialog
         while (!isGameComplete) {
             // print current location
-            System.out.println(messages.get(playerLocation));
+            System.out.println(roomMessages.get(playerLocation));
 
             ParsedCommand command;
             try {
