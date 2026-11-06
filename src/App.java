@@ -13,7 +13,6 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         EnumMap<Room, Item> roomItems = createRoomItems();
-        EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         ArrayList<Item> inventory = new ArrayList<>();
 
         // current player location
@@ -58,16 +57,16 @@ public class App {
                 case Command.INVENTORY -> inventory(inventory);
                 case Command.PICKUP -> System.out.println(PickUp(playerLocation, roomItems, inventory));
                 case Command.EXAMINE ->
-                    System.out.println(ExamineItemOfChoice(command.item(), inventory, itemMessages));
+                    System.out.println(ExamineItemOfChoice(command.item(), inventory));
                 case Command.USE -> System.out.println(useItem(command.item(), inventory, playerLocation));
                 case Command.NORTH ->
-                    playerLocation = move(Direction.NORTH, playerLocation, MAP, inventory, itemMessages);
+                    playerLocation = move(Direction.NORTH, playerLocation, MAP, inventory);
                 case Command.EAST ->
-                    playerLocation = move(Direction.EAST, playerLocation, MAP, inventory, itemMessages);
+                    playerLocation = move(Direction.EAST, playerLocation, MAP, inventory);
                 case Command.SOUTH ->
-                    playerLocation = move(Direction.SOUTH, playerLocation, MAP, inventory, itemMessages);
+                    playerLocation = move(Direction.SOUTH, playerLocation, MAP, inventory);
                 case Command.WEST ->
-                    playerLocation = move(Direction.WEST, playerLocation, MAP, inventory, itemMessages);
+                    playerLocation = move(Direction.WEST, playerLocation, MAP, inventory);
                 case Command.HELP -> help();
             }
             ;
@@ -179,9 +178,8 @@ public class App {
         }
     }
 
-    public static String ExamineItemOfChoice(Item item, ArrayList<Item> inventory,
-            EnumMap<Item, String> itemMessages) {
-
+    public static String ExamineItemOfChoice(Item item, ArrayList<Item> inventory) {
+        EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
         itemMessages.put(Item.BATTERIES, "BATTERIES. These are needed for the radio once you reach the guard room.");
         itemMessages.put(Item.KEYCARD, "KEYCARD. You'll need this to get access to the guard room.");
         itemMessages.put(Item.COIN, "COIN. A pound coin");
@@ -322,12 +320,11 @@ public class App {
             Direction directionToMove,
             Room playerCurrentRoom,
             EnumMap<Room, EnumMap<Direction, Room>> map,
-            ArrayList<Item> inventory,
-            EnumMap<Item, String> itemMessages) {
+            ArrayList<Item> inventory) {
         Room nextRoom = getNextRoom(directionToMove, playerCurrentRoom, map);
 
         // Only allow access to the guard room if we have the keycard.
-        if (nextRoom == Room.GUARDROOM && !OpenLockedDoorWithKey(inventory, itemMessages, nextRoom)) {
+        if (nextRoom == Room.GUARDROOM && !OpenLockedDoorWithKey(inventory, nextRoom)) {
             return playerCurrentRoom;
         }
 
@@ -378,9 +375,7 @@ public class App {
     }
 
     // checks whether player has keycard to guarddoor
-    public static boolean OpenLockedDoorWithKey(ArrayList<Item> inventory,
-            EnumMap<Item, String> itemMessages, Room playerLocation) {
-
+    public static boolean OpenLockedDoorWithKey(ArrayList<Item> inventory, Room playerLocation) {
         if (playerLocation == Room.GUARDROOM && inventory.contains(Item.BATTERIES)
                 && (inventory.contains(Item.KEYCARD))) {
             return true;
