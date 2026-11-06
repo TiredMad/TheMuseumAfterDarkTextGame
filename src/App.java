@@ -126,7 +126,7 @@ public class App {
 
         Command command;
         try {
-            String word = ALIASES.getOrDefault(words[0], words[0]);
+            String word = ALIASES.getOrDefault(words[0].toLowerCase(), words[0]);
             command = Command.valueOf(word.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new ParserException("Invalid command");
