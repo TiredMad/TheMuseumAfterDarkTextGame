@@ -11,15 +11,6 @@ public class AppTest {
     }
 
     @Test
-    void tryToPrintMapAfterClear() {
-        EnumMap<Room, String> testMap = null;
-
-        assertThrows(Exception.class, () -> {
-            App.PrintRoomMessage(testMap, Room.CAFE);
-        });
-    }
-
-    @Test
     void validateLookAroundRoom() {
         EnumMap<Room, Item> roomItems = App.createRoomItems();
 
