@@ -241,27 +241,24 @@ public class App {
         return roomItems;
     }
 
-    public static void PutItemInInventoryAndRemoveFromRoom(EnumMap<Room, Item> roomItems, Room playerLocation, ArrayList<Item> inventory ){
-        inventory.add(roomItems.get(playerLocation));
-
-        System.out.println(roomItems.get(playerLocation) + " was added to your inventory");
+    // returns the item added to inventory
+    public static Item PutItemInInventoryAndRemoveFromRoom(EnumMap<Room, Item> roomItems, Room playerLocation, ArrayList<Item> inventory ){
+        Item itemToAdd = roomItems.get(playerLocation);
+        inventory.add(itemToAdd);
         roomItems.remove(playerLocation);
+        return itemToAdd;
     }
 
     // throwing error for if no item is in a room
     public static String PickUp(Room playerLocation, EnumMap<Room, Item> roomItems, ArrayList<Item> inventory) {
         if (roomItems.containsKey(playerLocation)) {
-            PutItemInInventoryAndRemoveFromRoom(roomItems, playerLocation, inventory);
-            String successMessage = "You successfully added an item to your inventory";
-            
-            return successMessage;
+            Item itemAdded = PutItemInInventoryAndRemoveFromRoom(roomItems, playerLocation, inventory);
+            return itemAdded + " was added to your inventory!";
         } else {
-            String failureMessage = "You cannot see any useful items in this room.";
-            return failureMessage; 
+            return "You cannot see any useful items in this room.";
         }
     }
     
-
     // Initialises the world map
     // Used to identify which directions are available from each room
     // and the room they lead to
