@@ -182,11 +182,10 @@ public class App {
     public static String ExamineItemOfChoice(Item item, ArrayList<Item> inventory,
             EnumMap<Item, String> itemMessages) {
 
-        itemMessages.put(Item.BATTERIES, "BATTERIES. These are needed for the radio once you reach the guard room.");
-        itemMessages.put(Item.KEYCARD, "KEYCARD. You'll need this to get access to the guard room.");
-        itemMessages.put(Item.COIN, "COIN. A pound coin");
-        itemMessages.put(Item.GUIDEBOOK,
-                "GUIDEBOOK. The Notlaw Museum Guidebook, 12th Edition. Its copyright date appears to be in the future.");
+        itemMessages.put(Item.BATTERIES, "BATTERIES.🔋 These are needed for the radio once you reach the guard room.");
+        itemMessages.put(Item.KEYCARD, "KEYCARD.💳 You'll need this to get access to the guard room.");
+        itemMessages.put(Item.COIN, "COIN.🪙 A pound coin");
+        itemMessages.put(Item.GUIDEBOOK,"GUIDEBOOK.🔖 The Notlaw Museum Guidebook, 12th Edition. Its copyright date appears to be in the future.");
         if (inventory.isEmpty()) {
             return "Your pockets are empty.";
         }
