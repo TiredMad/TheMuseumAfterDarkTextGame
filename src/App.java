@@ -14,22 +14,10 @@ public class App {
     public static void main(String[] args) throws Exception {
         EnumMap<Room, Item> roomItems = createRoomItems();
         ArrayList<Item> inventory = new ArrayList<>();
-
-        // current player location
         Room playerLocation = Room.CAFE;
-
-        // previous player location
         Room prevPlayerLocation = null;
-
-        // the world map
         final EnumMap<Room, EnumMap<Direction, Room>> MAP = initialiseMap();
-
-        // room messages
         EnumMap<Room, String> roomMessages = initialise_room_messages();
-
-        // Example use
-        // roomItems.put(Room.GIFTSHOP, Item.BATTERIES);
-        // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
 
         // Game loop: to be filled in with functions as they are completed
         while (!isGameComplete) {
