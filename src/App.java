@@ -45,7 +45,7 @@ public class App {
             try {
                 command = readAndParseCommand();
             } catch (ParserException e) {
-                System.out.println(e.getMessage());
+                System.out.printf("\n%s\n\n", e.getMessage());
                 continue;
             }
 
