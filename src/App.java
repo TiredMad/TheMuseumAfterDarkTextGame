@@ -384,7 +384,7 @@ public class App {
         }
 
         else if (playerLocation == Room.GUARDROOM && !inventory.contains(Item.KEYCARD)) {
-            System.out.print("Access deined you need a KEYCARD!");
+            System.out.print("Access denied you need a KEYCARD!");
             return false;
         }
 
