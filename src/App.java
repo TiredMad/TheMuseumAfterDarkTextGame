@@ -229,15 +229,6 @@ public class App {
         return roomMessages;
     }
 
-    /* 
-    public static void PrintRoomMessage(EnumMap<Room, String> messages, Room room) throws Exception {
-        if(messages.get(room)== null){
-            throw new Exception("no message available");
-        }
-        //System.out.printf("%s\n", messages.get(room));
-    }
-    */
-
     public static EnumMap<Room, Item> InitialiseItemEnumMap() throws Exception
     {
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
