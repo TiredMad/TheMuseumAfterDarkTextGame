@@ -80,7 +80,8 @@ public class AppTest {
         EnumMap<Item, String> itemMessages = new EnumMap<>(Item.class);
 
         assertEquals(Room.CAFE, App.move(Direction.SOUTH, Room.CAFE, map, inventory, itemMessages));
-        assertEquals(Room.DINOSAURGALLERY, App.move(Direction.WEST, Room.DINOSAURGALLERY, map, inventory, itemMessages));
+        assertEquals(Room.DINOSAURGALLERY,
+                App.move(Direction.WEST, Room.DINOSAURGALLERY, map, inventory, itemMessages));
         assertEquals(Room.GIFTSHOP, App.move(Direction.EAST, Room.GIFTSHOP, map, inventory, itemMessages));
         assertEquals(Room.STAFFROOM, App.move(Direction.NORTH, Room.STAFFROOM, map, inventory, itemMessages));
         assertEquals(Room.UPPERLANDING, App.move(Direction.EAST, Room.UPPERLANDING, map, inventory, itemMessages));
@@ -117,9 +118,6 @@ public class AppTest {
 
         assertEquals(true, inventory.contains(Item.KEYCARD));
         assertEquals(false, roomItems.containsValue(Item.KEYCARD));
-
-
-
 
     }
 
@@ -166,26 +164,22 @@ public class AppTest {
 
         assertEquals(false, roomItems.containsKey(Room.MAINHALL));
 
-       
-
     }
 
     @Test
-    void PickUpNegative() throws Exception{
-        EnumMap <Room, Item> roomItems = App.InitialiseItemEnumMap();
-       
+    void PickUpNegative() throws Exception {
+        EnumMap<Room, Item> roomItems = App.InitialiseItemEnumMap();
+
         ArrayList<Item> inventory = new ArrayList<>();
 
-        assertEquals("You cannot see any useful items in this room.", App.PickUp(Room.MAINHALL, roomItems, inventory)); 
-        assertEquals("You cannot see any useful items in this room.", App.PickUp(Room.UPPERLANDING, roomItems, inventory));
+        assertEquals("You cannot see any useful items in this room.", App.PickUp(Room.MAINHALL, roomItems, inventory));
+        assertEquals("You cannot see any useful items in this room.",
+                App.PickUp(Room.UPPERLANDING, roomItems, inventory));
         assertEquals("You cannot see any useful items in this room.", App.PickUp(Room.GUARDROOM, roomItems, inventory));
 
-        
     }
 
-    
-
-        // testing examine shows the right message for items the player has
+    // testing examine shows the right message for items the player has
     @Test
     void testExamineItemValid() throws Exception {
         EnumMap<Item, String> messages = new EnumMap<>(Item.class);
@@ -193,8 +187,10 @@ public class AppTest {
         inventory.add(Item.BATTERIES);
         inventory.add(Item.KEYCARD);
 
-        assertEquals("BATTERIES. These are needed for the radio once you reach the guard room.", App.ExamineItemOfChoice(Item.BATTERIES, inventory, messages));
-        assertEquals("KEYCARD. You'll need this to get access to the guard room.", App.ExamineItemOfChoice(Item.KEYCARD, inventory, messages));
+        assertEquals("BATTERIES. These are needed for the radio once you reach the guard room.",
+                App.ExamineItemOfChoice(Item.BATTERIES, inventory, messages));
+        assertEquals("KEYCARD. You'll need this to get access to the guard room.",
+                App.ExamineItemOfChoice(Item.KEYCARD, inventory, messages));
     }
 
     // testing examine when the pockets are empty or the item isn't there
@@ -240,7 +236,6 @@ public class AppTest {
                 App.useItem(Item.BATTERIES, inventory, Room.MAINHALL));
     }
 
-
     @Test
     void ExamineItemsYouDontHave() {
         ArrayList<Item> inventory = new ArrayList<>();
@@ -282,8 +277,4 @@ public class AppTest {
         assertFalse(App.OpenLockedDoorWithKey(inventory, messages, Room.GUARDROOM));
     }
 
-
 }
-
-
-
