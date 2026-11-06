@@ -3,6 +3,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Scanner;
+import java.util.Map;
 
 public class App {
 
@@ -111,6 +112,19 @@ public class App {
     // asks user for input and converts to command enum
     // throws exception for invalid input
     public static ParsedCommand readAndParseCommand() throws ParserException {
+        final Map<String, String> ALIASES = Map.of(
+            "h", "help",
+            "l", "look",
+            "i", "inventory",
+            "p", "pickup",
+            "x", "examine",
+            "u", "use",
+            "n", "north",
+            "e", "east",
+            "s", "south",
+            "w", "west"
+        );
+
         // take input from user
         System.out.printf("Enter command: ");
         String input = stdin.nextLine();
@@ -119,7 +133,8 @@ public class App {
 
         Command command;
         try {
-            command = Command.valueOf(words[0].toUpperCase());
+            String word = ALIASES.getOrDefault(words[0], words[0]);
+            command = Command.valueOf(word.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new ParserException("Invalid command");
         }
