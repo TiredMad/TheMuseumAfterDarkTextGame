@@ -33,7 +33,6 @@ public class App {
         // roomItems.get(Room.GIFTSHOP); // Returns Item.BATTERIES
 
         // Game loop: to be filled in with functions as they are completed
-        // TODO: Starting dialog
         while (!isGameComplete) {
             // if the player has changed rooms 
             // wipe console and print new room message
@@ -70,6 +69,8 @@ public class App {
             // FORMATTING DO NOT REMOVE!!
             System.out.printf("\n");
         }   
+
+        System.out.println(Files.readString(Path.of("src/RoomDescriptions/EndingMessage.txt")));
     }
 
     static void printFormattedRoomUI(Room room, EnumMap<Room, String> roomMessages) {
