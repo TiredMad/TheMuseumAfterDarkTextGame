@@ -3,6 +3,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Scanner;
+import java.util.Map;
 
 public class App {
 
@@ -111,49 +112,47 @@ public class App {
     // asks user for input and converts to command enum
     // throws exception for invalid input
     public static ParsedCommand readAndParseCommand() throws ParserException {
+        final Map<String, String> ALIASES = Map.of(
+            "h", "help",
+            "l", "look",
+            "i", "inventory",
+            "p", "pickup",
+            "x", "examine",
+            "u", "use",
+            "n", "north",
+            "e", "east",
+            "s", "south",
+            "w", "west"
+        );
+
         // take input from user
         System.out.printf("Enter command: ");
         String input = stdin.nextLine();
 
-        String[] words = input.split(" ");
+        String[] words = input.trim().split("\\s+");
 
-        // convert input to command enum
-        Command command = switch (words[0].toLowerCase()) {
-            case "look" -> Command.LOOK;
-            case "examine" -> Command.EXAMINE;
-            case "inventory" -> Command.INVENTORY;
-            case "pickup" -> Command.PICKUP;
-            case "use" -> Command.USE;
-            case "north" -> Command.NORTH;
-            case "east" -> Command.EAST;
-            case "south" -> Command.SOUTH;
-            case "west" -> Command.WEST;
-            case "help" -> Command.HELP;
-            default -> throw new ParserException("Invalid Command");
-        };
+        Command command;
+        try {
+            String word = ALIASES.getOrDefault(words[0], words[0]);
+            command = Command.valueOf(word.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ParserException("Invalid command");
+        }
 
-        switch (command) {
-            case Command.LOOK, Command.INVENTORY, Command.PICKUP, Command.NORTH, Command.EAST,
-                    Command.SOUTH, Command.WEST, Command.HELP -> {
-                return new ParsedCommand(command, null);
-            }
-            case Command.USE, Command.EXAMINE -> {
-            }
+        if (command != Command.USE && command != Command.EXAMINE) {
+            return new ParsedCommand(command, null);
         }
 
         if (words.length < 2) {
-            throw new ParserException("Invalid Command");
+            throw new ParserException("This command requires an item");
         }
 
-        Item item = switch (words[1].toLowerCase()) {
-            case "batteries" -> Item.BATTERIES;
-            case "keycard" -> Item.KEYCARD;
-            case "coin" -> Item.COIN;
-            case "guidebook" -> Item.GUIDEBOOK;
-            default -> throw new ParserException("Invalid item.");
-        };
-
-        return new ParsedCommand(command, item);
+        try {
+            Item item = Item.valueOf(words[1].toUpperCase());
+            return new ParsedCommand(command, item);
+        } catch(IllegalArgumentException e) {
+            throw new ParserException("Unknown item");
+        }
     }
 
     static void inventory(ArrayList<Item> inventory) {
