@@ -129,7 +129,7 @@ public class App {
         }
 
         if (words.length < 2) {
-            throw new ParserException("Invalid Command");
+            throw new ParserException("This command requires an item");
         }
 
         try {
