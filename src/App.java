@@ -33,14 +33,11 @@ public class App {
 
         // Game loop: to be filled in with functions as they are completed
         // TODO: Starting dialog
-        System.out.println("At any time, type help for options");
         while (!isGameComplete) {
-            
-            // check if player has moved to print new room message.
+            // if the player has changed rooms 
+            // wipe console and print new room message
             if (prevPlayerLocation != playerLocation) {
-                // print current location
-                System.out.printf("================\n%s\n================\n\n", playerLocation);
-                System.out.println(roomMessages.get(playerLocation));
+                printFormattedRoomUI(playerLocation, roomMessages);
                 prevPlayerLocation = playerLocation;
             }
 
@@ -51,6 +48,9 @@ public class App {
                 System.out.println(e.getMessage());
                 continue;
             }
+
+            // FORMATTING DO NOT REMOVE!!
+            System.out.printf("\n");
 
             switch (command.command()) {
                 case Command.LOOK -> System.out.println(lookAroundRoom(playerLocation, roomItems));
@@ -66,14 +66,38 @@ public class App {
                 case Command.HELP -> help();
             };
 
-            System.out.println();
+            // FORMATTING DO NOT REMOVE!!
+            System.out.printf("\n");
         }   
+    }
 
-        //PrintRoomMessage(messages, playerLocation);
+    static void printFormattedRoomUI(Room room, EnumMap<Room, String> roomMessages) {
+        // clear console
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+
+        // print room location and description
+        System.out.printf("\n\n\n\n");
+        printFormattedRoomTitle(room.toString());
+        System.out.printf("\n");
+        System.out.println(roomMessages.get(room));
+        System.out.printf("\n");
+
+        // print help hint
+        System.out.println("- At any time, type \"help\" for options");
+        System.out.printf("\n");
+    }
+
+    static void printFormattedRoomTitle(String roomTitle) {
+        String topAndBottom = "";
+        for(int i = 0; i < roomTitle.length() + 6; i++) {
+            topAndBottom += '-';
+        }
+        System.out.printf("%s\n|  %s  |\n%s\n", topAndBottom, roomTitle, topAndBottom);
     }
 
     static void help() {
-        System.out.println("""
+        System.out.printf("""
                 - help: shows commands in game
                 - look: find any useful items in the room
                 - inventory: reminder of what you're holding
@@ -205,13 +229,6 @@ public class App {
         return roomMessages;
     }
 
-    public static void PrintRoomMessage(EnumMap<Room, String> messages, Room room) throws Exception {
-        if(messages.get(room)== null){
-            throw new Exception("no message available");
-        }
-        System.out.printf("%s\n", messages.get(room));
-    }
-
     public static EnumMap<Room, Item> InitialiseItemEnumMap() throws Exception
     {
         EnumMap<Room, Item> roomItems = new EnumMap<>(Room.class);
@@ -228,10 +245,6 @@ public class App {
 
         System.out.println(roomItems.get(playerLocation) + " was added to your inventory");
         roomItems.remove(playerLocation);
-        
-        
-
-        
     }
 
     // throwing error for if no item is in a room
@@ -371,7 +384,7 @@ public class App {
         }
 
         else if (playerLocation == Room.GUARDROOM && !inventory.contains(Item.KEYCARD)) {
-            System.out.print("Access deined you need a KEYCARD!");
+            System.out.print("Access denied you need a KEYCARD!");
             return false;
         }
 
