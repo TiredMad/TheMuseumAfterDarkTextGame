@@ -183,11 +183,19 @@ public class AppTest {
         ArrayList<Item> inventory = new ArrayList<>();
         inventory.add(Item.BATTERIES);
         inventory.add(Item.KEYCARD);
+        inventory.add(Item.COIN);
+        inventory.add(Item.GUIDEBOOK);
+
 
         assertEquals("BATTERIES. These are needed for the radio once you reach the guard room.",
                 App.ExamineItemOfChoice(Item.BATTERIES, inventory));
         assertEquals("KEYCARD. You'll need this to get access to the guard room.",
                 App.ExamineItemOfChoice(Item.KEYCARD, inventory));
+        assertEquals("COIN. A pound coin",
+                App.ExamineItemOfChoice(Item.COIN, inventory));
+        assertEquals("GUIDEBOOK. The Notlaw Museum Guidebook, 12th Edition. Its copyright date appears to be in the future.",
+                App.ExamineItemOfChoice(Item.GUIDEBOOK, inventory));
+        
     }
 
     // testing examine when the pockets are empty or the item isn't there
@@ -196,10 +204,18 @@ public class AppTest {
         ArrayList<Item> inventory = new ArrayList<>();
 
         assertEquals("Your pockets are empty.", App.ExamineItemOfChoice(Item.BATTERIES, inventory));
+        assertEquals("Your pockets are empty.", App.ExamineItemOfChoice(Item.GUIDEBOOK, inventory));
+        assertEquals("Your pockets are empty.", App.ExamineItemOfChoice(Item.COIN, inventory));
+        assertEquals("Your pockets are empty.", App.ExamineItemOfChoice(Item.KEYCARD, inventory));
 
-        // player has batteries but examines the keycard
+        // testing player unable to exmaine item they don't have.
         inventory.add(Item.BATTERIES);
         assertEquals("You don't have that item.", App.ExamineItemOfChoice(Item.KEYCARD, inventory));
+        assertEquals("You don't have that item.", App.ExamineItemOfChoice(Item.GUIDEBOOK, inventory));
+        assertEquals("You don't have that item.", App.ExamineItemOfChoice(Item.KEYCARD, inventory));
+        inventory.remove(Item.BATTERIES);
+        inventory.add(Item.GUIDEBOOK);
+        assertEquals("You don't have that item.", App.ExamineItemOfChoice(Item.BATTERIES, inventory));
     }
 
     @Test
